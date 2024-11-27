@@ -7,7 +7,7 @@ from .forms import LoginForm, SignupForm
 
 
 def user_login(request):
-    FALLBACK_REDIRECT = reverse('home')
+    FALLBACK_REDIRECT = reverse('shared:index')
 
     if request.user.is_authenticated:
         return redirect(FALLBACK_REDIRECT)
