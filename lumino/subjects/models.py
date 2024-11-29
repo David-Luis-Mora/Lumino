@@ -11,11 +11,11 @@ class Subject(models.Model):
         blank=True,
     )
 
-    students = models.ManyToManyField(User, related_name='users', blank=True)
+    students = models.ManyToManyField(User, related_name='students', blank=True)
     teacher = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='user_teacher',
+        related_name='teacher',
     )
 
     def __str__(self):
