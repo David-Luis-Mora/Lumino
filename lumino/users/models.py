@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+
 from subjects.models import Subject
 
 # Create your models here.
