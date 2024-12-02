@@ -24,5 +24,6 @@ urlpatterns = [
     path('logout/', accounts.views.user_logout, name='logout'),
     path('signup/', accounts.views.user_signup, name='signup'),
     path('', include('shared.urls')),
+    # path('users/', include('users.urls')),
     path('admin/', admin.site.urls),
 ]
