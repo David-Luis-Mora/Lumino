@@ -11,9 +11,12 @@ class SubjectAdmin(admin.ModelAdmin):
         'code',
         'name',
         'description',
-        'students',
+        # 'get_students',
         'teacher',
     ]
+
+    # def get_students(self, obj):
+    #     return ', '.join([str(student) for student in obj.students.all()])
 
 
 @admin.register(Lesson)

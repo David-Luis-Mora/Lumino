@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Profile
+from .models import Enrollment, Profile
 
 # Register your models here.
 
@@ -12,4 +12,14 @@ class ProfileAdmin(admin.ModelAdmin):
         'user',
         'bio',
         'avatar',
+    ]
+
+
+@admin.register(Enrollment)
+class Enrollment(admin.ModelAdmin):
+    list_display = [
+        'student',
+        'subject',
+        'enrolled_at',
+        'mark',
     ]
