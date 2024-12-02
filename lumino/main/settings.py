@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'shared.apps.SharedConfig',
     'users.apps.UsersConfig',
     'subjects.apps.SubjectsConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_URL = 'login'
+
+STATICFILES_DIRS = [BASE_DIR / 'node_modules']
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
