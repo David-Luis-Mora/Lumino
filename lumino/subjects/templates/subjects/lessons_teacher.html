@@ -1,0 +1,12 @@
+<h1>Lecciones de {{ subject.name }}</h1>
+<ul>
+    {% for lesson in lessons %}
+        <li>
+            {{ lesson.title }}
+            <a href="#">Ver</a>
+            <a href="#">Editar</a>
+            <a href="#">Borrar</a>
+        </li>
+    {% endfor %}
+</ul>
+<a href="#">Añadir nueva lección</a>

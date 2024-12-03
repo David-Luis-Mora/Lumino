@@ -1,0 +1,6 @@
+<h1>Mis Módulos</h1>
+<ul>
+    {% for subject in subjects %}
+        <li><a href="{% url 'subjects:subject_detail' subject.code %}">{{ subject.name }}</a></li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,6 @@
+<h1>Dashboard del Módulo: {{ subject.name }}</h1>
+<p>Descripción: {{ subject.description }}</p>
+<ul>
+    <li><a href="{% url 'subjects:subject_lessons' subject.code %}">Lecciones</a></li>
+    <li><a href="#">Notas</a></li>
+</ul>
