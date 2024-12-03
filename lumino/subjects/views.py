@@ -12,7 +12,7 @@ def subject_list(request):
     profile = request.user.profiles
     if profile.role == Profile.Role.TEACHER:
         subjects = Subject.objects.filter(teacher=request.user)
-    else:  # STUDENT
+    else:
         subjects = Subject.objects.filter(students=request.user)
 
     return render(request, 'subjects/subject_list.html', {'subjects': subjects})
