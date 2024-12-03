@@ -3,6 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from users.models import Profile
 
 
@@ -52,7 +53,13 @@ class SignupForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
 
         if commit:
-            user.save()
             Profile.objects.create(user=user)
+            user.save()
 
         return user
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if self._meta.model.objects.filter(email=email).count() > 0:
+            raise ValidationError('A user with that email already exists.')
+        return email
