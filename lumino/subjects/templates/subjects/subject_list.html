@@ -1,6 +1,7 @@
+{% include "shared/navbar.html" %}
 <h1>Mis Módulos</h1>
 <ul>
     {% for subject in subjects %}
-        <li><a href="{% url 'subjects:subject_detail' subject.code %}">{{ subject.name }}</a></li>
+        <li><a href="{% url 'subjects:subject-detail' subject.code %}">{{ subject.name }}</a></li>
     {% endfor %}
 </ul>
