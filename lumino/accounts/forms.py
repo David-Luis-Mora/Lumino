@@ -48,14 +48,11 @@ class SignupForm(forms.ModelForm):
         )
 
     def save(self, *args, **kwargs):
-        commit = kwargs.pop('commit', True)
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
-
-        if commit:
-            Profile.objects.create(user=user)
-            user.save()
-
+        user = super().save(*args, **kwargs)
+        Profile.objects.create(user=user)
+        user.save()
         return user
 
     def clean_email(self):

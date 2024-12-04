@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from subjects.models import Subject
 
 # Create your models here.
@@ -12,7 +11,7 @@ class Profile(models.Model):
         TEACHER = 'T', 'Teacher'
 
     role = models.CharField(max_length=1, choices=Role, default=Role.STUDENT)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profiles')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(blank=True)
     avatar = models.ImageField(upload_to='avatars/noavatar.png', blank=True, null=True)
 

@@ -9,7 +9,7 @@ from .models import Lesson, Subject
 
 @login_required
 def subject_list(request):
-    profile = request.user.profiles
+    profile = request.user.profile
     if profile.role == Profile.Role.TEACHER:
         subjects = Subject.objects.filter(teacher=request.user)
     else:
