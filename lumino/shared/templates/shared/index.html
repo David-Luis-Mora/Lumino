@@ -2,6 +2,9 @@
 {% block title %}
   HOME
 {% endblock %}
+{% block navbar %}
+  {% include "shared/navbar.html" %}
+{% endblock navbar %}
 {% block content %}
   <a href="{% url 'login' %}">Login</a>
   <a href="{% url 'signup' %}">Sign up</a>
