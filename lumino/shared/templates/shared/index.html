@@ -3,11 +3,11 @@
   HOME
 {% endblock %}
 {% block navbar %}
-  {% include "shared/navbar.html" %}
+  
 {% endblock navbar %}
 {% block content %}
-  <a href="{% url 'login' %}">Login</a>
-  <a href="{% url 'signup' %}">Sign up</a>
+  <i class="bi bi-person-check"><a href="{% url 'login' %}">Login</a></i>
+  <i class="bi bi-person-add"><a href="{% url 'signup' %}">Sign up</a></i>
 {% endblock %}
  
   

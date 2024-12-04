@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-    Mis Módulos
+    {{request.user.username}} | Subjects
 {% endblock title %}
-
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
 {% block content %}
 <ul>
     {% for subject in subjects %}

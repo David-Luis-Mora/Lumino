@@ -12,7 +12,7 @@ class Subject(models.Model):
         blank=True,
     )
     students = models.ManyToManyField(
-        User, related_name='student_subjects', through='users.Enrollment'
+        User, related_name='student_subjects', through='shared.Enrollment'
     )
     teacher = models.ForeignKey(
         User,
