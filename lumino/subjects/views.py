@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 
 # from django.http import HttpResponseForbidden
 from django.shortcuts import render
+
 from users.models import Profile
 
 from .models import Lesson, Subject
@@ -21,7 +22,7 @@ def subject_list(request):
 def subject_detail(request, code):
     subject = Subject.objects.get(code=code)
     print(request.user)
-    profile = request.user.profiles
+    profile = request.user.profile
 
     if profile.role == Profile.Role.TEACHER:
         return render(request, 'subjects/subject_dashboard_teacher.html', {'subject': subject})
@@ -32,7 +33,7 @@ def subject_detail(request, code):
 def subject_lessons(request, code):
     subject = Subject.objects.get(code=code)
     lessons = Lesson.objects.filter(subject=subject)
-    profile = request.user.profiles
+    profile = request.user.profile
 
     if profile.role == Profile.Role.TEACHER:
         return render(
