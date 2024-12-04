@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from shared.models import Enrollment
+from subjects.models import Enrollment
 
 from .models import Profile
 

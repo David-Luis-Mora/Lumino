@@ -8,7 +8,11 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
+<<<<<<< HEAD
         ('subjects', '0003_alter_subject_students'),
+=======
+        ('subjects', '0003_enrollment_alter_subject_students'),
+>>>>>>> 13a8391a5136aba6601cb26f3883c18c2c3f3ecb
         ('users', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]

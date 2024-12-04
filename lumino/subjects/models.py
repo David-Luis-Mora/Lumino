@@ -11,9 +11,13 @@ class Subject(models.Model):
     description = models.TextField(
         blank=True,
     )
+<<<<<<< HEAD
     students = models.ManyToManyField(
         User, related_name='student_subjects', through='shared.Enrollment'
     )
+=======
+    students = models.ManyToManyField(User, related_name='student_subjects', through='Enrollment')
+>>>>>>> 13a8391a5136aba6601cb26f3883c18c2c3f3ecb
     teacher = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -33,3 +37,16 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# Create your models here.
+
+
+class Enrollment(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name='enrollments')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='enrollments')
+    enrolled_at = models.DateField(auto_now_add=True)
+    mark = models.PositiveSmallIntegerField(null=True)
+
+    def __str__(self):
+        return f'{self.student.username} - {self.subject.name}'
