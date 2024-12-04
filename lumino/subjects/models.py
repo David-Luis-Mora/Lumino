@@ -11,13 +11,7 @@ class Subject(models.Model):
     description = models.TextField(
         blank=True,
     )
-<<<<<<< HEAD
-    students = models.ManyToManyField(
-        User, related_name='student_subjects', through='shared.Enrollment'
-    )
-=======
     students = models.ManyToManyField(User, related_name='student_subjects', through='Enrollment')
->>>>>>> 13a8391a5136aba6601cb26f3883c18c2c3f3ecb
     teacher = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
