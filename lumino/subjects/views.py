@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
-
-# from django.http import HttpResponseForbidden
-from django.shortcuts import render
-
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
+from django.shortcuts import redirect, render
+from shared.decorators import role_required
 from users.models import Profile
 
-from .models import Lesson, Subject
+from .forms import LessonForm
+from .models import Enrollment, Lesson, Subject
 
 
 @login_required
@@ -45,25 +46,94 @@ def subject_lessons(request, code):
         )
 
 
-def lesson_detail(request):
+def lesson_detail(request, pk):
+    lesson = Lesson.objects.get(pk=pk)
+    subject = lesson.subject
+
+    if request.user.profile.role == 'T':
+        if subject.teacher != request.user:
+            raise PermissionDenied()
+        return render(request, 'lesson_detail.html', {'lesson': lesson, 'can_edit': True})
+    elif request.user.profile.role == 'S':
+        if request.user not in subject.students.all():
+            raise PermissionDenied()
+        return render(request, 'lesson_detail.html', {'lesson': lesson})
+    else:
+        raise PermissionDenied()
+
+
+@role_required('T')
+def add_lesson(request, pk):
+    if request.method == 'POST':
+        form = LessonForm(request.POST)
+        if form.is_valid():
+            lesson = form.save(commit=False)
+            if lesson.subject.teacher != request.user:
+                return HttpResponseForbidden('No tienes permisos.')
+            lesson.save()
+            return redirect('lesson_detail', pk=lesson.pk)
+    else:
+        form = LessonForm()
+    return render(request, 'lesson_form.html', {'form': form})
     pass
 
 
-def add_lesson(request):
-    pass
+@role_required('T')
+def edit_lesson(request, pk):
+    lesson = Lesson.objects.get(pk=pk)
+    if lesson.subject.teacher != request.user:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        form = LessonForm(request.POST, instance=lesson)
+        if form.is_valid():
+            form.save()
+            return redirect('lesson_detail', pk=pk)
+    else:
+        form = LessonForm(instance=lesson)
+    return render(request, 'lesson_form.html', {'form': form})
 
 
-def edit_lesson(request):
-    pass
+@role_required('T')
+def delete_lesson(request, pk):
+    lesson = Lesson.objects.get(pk=pk)
+    if lesson.subject.teacher != request.user:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        lesson.delete()
+        return redirect('some_list_view')
+    return render(request, 'confirm_delete.html', {'object': lesson})
 
 
-def delete_lesson(request):
-    pass
-
-
+@role_required('T')
 def mark_list(request):
-    pass
+    subject = Subject.objects.get(code='DSW', teacher=request.user)
+    enrollments = subject.enrollments.all()
+    return render(request, 'mark_list.html', {'enrollments': enrollments})
 
 
+@role_required('T')
 def edit_marks(request):
-    pass
+    subjects = Subject.objects.filter(teacher=request.user)
+
+    if not subjects.exists():
+        raise PermissionDenied('No tienes asignaturas asignadas para editar calificaciones.')
+
+    enrollments = Enrollment.objects.filter(subject__in=subjects)
+
+    EnrollmentFormSet = Enrollment.object.get(
+        fields=('mark',),
+        extra=0,
+        can_delete=False,
+    )
+
+    if request.method == 'POST':
+        formset = EnrollmentFormSet(request.POST, queryset=enrollments)
+        if formset.is_valid():
+            formset.save()
+            return redirect('mark_list')
+    else:
+        formset = EnrollmentFormSet(queryset=enrollments)
+
+    return render(request, 'edit_marks.html', {'subjects': subjects, 'formset': formset})

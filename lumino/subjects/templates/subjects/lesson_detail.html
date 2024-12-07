@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ lesson.title }}</h1>
+<p>{{ lesson.content }}</p>
+
+{% if can_edit %}
+    <a href="{% url 'edit_lesson' lesson.pk %}">Editar Lección</a>
+    <a href="{% url 'delete_lesson' lesson.pk %}" style="color: red;">Borrar Lección</a>
+{% endif %}
+
+<a href="{% url 'subject_detail' lesson.subject.pk %}">Volver al módulo</a>
+{% endblock %}

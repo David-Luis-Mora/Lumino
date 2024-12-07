@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Editar Lección{% else %}Añadir Lección{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if form.instance.pk %}Guardar Cambios{% else %}Crear Lección{% endif %}</button>
+</form>
+
+<a href="{% url 'subject_detail' form.instance.subject.pk %}">Volver al módulo</a>
+{% endblock %}
+

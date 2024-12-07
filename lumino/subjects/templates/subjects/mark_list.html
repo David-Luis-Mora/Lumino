@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Calificaciones - {{ subject.name }}</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Estudiante</th>
+            <th>Calificación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for enrollment in enrollments %}
+            <tr>
+                <td>{{ enrollment.student.username }}</td>
+                <td>{{ enrollment.mark }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'edit_marks' %}">Editar Calificaciones</a>
+<a href="{% url 'subject_detail' subject.pk %}">Volver al módulo</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+[
+  {
+    "model": "subjects.subject",
+    "fields": {
+      "code": "DSW",
+      "name": "Desarrollo Web",
+      "description": "Curso avanzado de desarrollo web.",
+      "teacher": 1
+    }
+  },
+  {
+    "model": "subjects.subject",
+    "fields": {
+      "code": "MATH",
+      "name": "Matemáticas",
+      "description": "Introducción a las matemáticas avanzadas.",
+      "teacher": 2
+    }
+  },
+  {
+    "model": "subjects.subject",
+    "fields": {
+      "code": "PHY",
+      "name": "Física",
+      "description": "Conceptos básicos y avanzados de física.",
+      "teacher": 1
+    }
+  }
+]
