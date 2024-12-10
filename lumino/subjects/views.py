@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from shared.decorators import role_required
 from users.models import Profile
 
-from .forms import LessonForm
+from .forms import EnrollmentForm, LessonForm
 from .models import Enrollment, Lesson, Subject
 
 
@@ -18,6 +18,32 @@ def subject_list(request):
         subjects = Subject.objects.filter(students=request.user)
 
     return render(request, 'subjects/subject_list.html', {'subjects': subjects})
+
+
+def enroll_subjects(request):
+    if request.method == 'POST':
+        form = EnrollmentForm(request.POST)
+        if form.is_valid():
+            opciones_seleccionadas = form.cleaned_data['opciones']
+            opciones_seleccionadas.save()
+            return redirect('subject:subject-list')
+    else:
+        form = EnrollmentForm()
+
+    return render(request, 'elegir_opciones.html', {'form': form})
+
+
+def unenroll_subjects(request):
+    if request.method == 'POST':
+        form = EnrollmentForm(request.POST)
+        if form.is_valid():
+            opciones_seleccionadas = form.cleaned_data['opciones']
+            opciones_seleccionadas.delete()
+            return redirect('subject:subject-list')
+    else:
+        form = EnrollmentForm()
+
+    return render(request, 'elegir_opciones.html', {'form': form})
 
 
 def subject_detail(request, code):

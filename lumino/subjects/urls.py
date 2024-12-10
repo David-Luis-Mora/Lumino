@@ -6,6 +6,8 @@ app_name = 'subjects'
 
 urlpatterns = [
     path('', views.subject_list, name='subject-list'),
+    path('enroll/', views.enroll_subjects, name='enroll-subjects'),
+    path('unenroll/', views.unenroll_subjects, name='unenroll-subjects'),
     path('<str:code>/', views.subject_detail, name='subject-detail'),
     path('<str:code>/lessons/', views.subject_lessons, name='subject_lessons'),
     path('<str:code>/lessons/<int:pk>/', views.lesson_detail, name='lesson-detail'),
