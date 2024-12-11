@@ -6,12 +6,15 @@
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
 {% block content %}
-<ul>
+<ul class="list-group">
     {% for subject in subjects %}
-        <li><a href="{% url 'subjects:subject-detail' subject.code %}">{{subject.code}} | {{ subject.name }}</a></li>
+        <li class="list-group-item"><a href="{% url 'subjects:subject-detail' subject.code %}">{{subject.code}} | {{ subject.name }}</a></li>
     {% endfor %}
 </ul>
-<a href="{% url 'subjects:enroll-subjects'%}">Enroll</a>
-<a href="{% url 'subjects:unenroll-subjects'%}">Unenroll</a>
+{% if not_teacher %}
+    <a href="{% url 'subjects:enroll-subjects'%}"><button class="btn btn-primary">Enroll</button></a>
+    <a href="{% url 'subjects:unenroll-subjects'%}"><button class="btn btn-danger">Unenroll</button></a>
+{% endif %}
+
 
 {% endblock content %}

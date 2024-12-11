@@ -10,10 +10,10 @@ class LessonForm(forms.ModelForm):
 
 
 class EnrollmentForm(forms.Form):
-    opciones = forms.MultipleChoiceField(
+    options = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        label='Selecciona las asignaturas',
+        label="Enroll to the desiered subjects:"
     )
 
     def __init__(self, *args, **kwargs):
@@ -25,15 +25,15 @@ class EnrollmentForm(forms.Form):
         )
         available_subjects = Subject.objects.exclude(id__in=enrolled_subject_ids)
 
-        self.fields['opciones'].choices = [
+        self.fields['options'].choices = [
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]
 
 class UnenrollForm(forms.Form):
-    opciones = forms.MultipleChoiceField(
+    options = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        label='Selecciona las asignaturas',
+        label="Unenroll from the desiered subjects:"
     )
 
     def __init__(self, *args, **kwargs):
@@ -45,6 +45,6 @@ class UnenrollForm(forms.Form):
         )
         available_subjects = Subject.objects.filter(id__in=enrolled_subject_ids)
 
-        self.fields['opciones'].choices = [
+        self.fields['options'].choices = [
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]

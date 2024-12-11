@@ -14,19 +14,22 @@ def subject_list(request):
     profile = request.user.profile
     if profile.role == Profile.Role.TEACHER:
         subjects = Subject.objects.filter(teacher=request.user)
+        not_teacher = False
     else:
         subjects = Subject.objects.filter(students=request.user)
+        not_teacher = True
 
-    return render(request, 'subjects/subject_list.html', {'subjects': subjects})
+    return render(request, 'subjects/subject_list.html', {'subjects': subjects, 'not_teacher':not_teacher})
 
 
 @login_required
 @role_required('S')
 def enroll_subjects(request):
+    msj = "Enroll"
     if request.method == 'POST':
         form = EnrollmentForm(request.POST, user=request.user)
         if form.is_valid():
-            selected_options = form.cleaned_data['opciones']
+            selected_options = form.cleaned_data['options']
             for subject_id in selected_options:
                 subject = Subject.objects.get(id=subject_id)
                 Enrollment.objects.get_or_create(student=request.user, subject=subject)
@@ -34,16 +37,17 @@ def enroll_subjects(request):
     else:
         form = EnrollmentForm(user=request.user)
 
-    return render(request, 'subjects/enrollment.html', {'form': form})
+    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
 
 
 @login_required
 @role_required('S')
 def unenroll_subjects(request):
+    msj = "Unenroll"
     if request.method == 'POST':
         form = UnenrollForm(request.POST, user=request.user)
         if form.is_valid():
-            selected_options = form.cleaned_data['opciones']
+            selected_options = form.cleaned_data['options']
             for subject_id in selected_options:
                 subject = Subject.objects.get(id=subject_id)
                 Enrollment.objects.filter(student=request.user, subject=subject).delete()
@@ -51,7 +55,7 @@ def unenroll_subjects(request):
     else:
         form = UnenrollForm(user=request.user)
 
-    return render(request, 'subjects/unenrollment.html', {'form': form})
+    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj':msj})
 
 
 def subject_detail(request, code):
@@ -59,10 +63,9 @@ def subject_detail(request, code):
     print(request.user)
     profile = request.user.profile
 
-    if profile.role == Profile.Role.TEACHER:
-        return render(request, 'subjects/subject_dashboard_teacher.html', {'subject': subject})
-    else:
-        return render(request, 'subjects/subject_dashboard_student.html', {'subject': subject})
+    return render(request, 'subjects/subject_dashboard.html', {'subject': subject})
+    
+       
 
 
 def subject_lessons(request, code):

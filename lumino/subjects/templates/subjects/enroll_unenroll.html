@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}
+{{request.user.username}} | {{msj}}
+{% endblock title %}
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
+{% block content %}
+<div class="container mt-5">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary">{{msj}}</button>
+  </form>
+  <a href="{% url 'subjects:subject-list' %}"><button class="btn btn-danger">Cancel</button></a>
+</div>
+{% endblock %}

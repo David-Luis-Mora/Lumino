@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{subject.code}}{% endblock title %}
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
+{% block content %}
+<h1>Panel de Estudiante: {{ subject.name }}</h1>
+<p>Teacher: {{subject.teacher}}</p>
+<p>Descripción: {{ subject.description }}</p>
+<ul>
+    <li><a href="{% url 'subjects:subject_lessons' subject.code %}">Lecciones</a></li>
+    <li><a href="#">Notas</a></li>
+</ul>
+{% endblock content %}
