@@ -20,30 +20,39 @@ def subject_list(request):
     return render(request, 'subjects/subject_list.html', {'subjects': subjects})
 
 
+@login_required
+@role_required('S')
 def enroll_subjects(request):
     if request.method == 'POST':
-        form = EnrollmentForm(request.POST)
+        form = EnrollmentForm(request.POST, user=request.user)
         if form.is_valid():
-            opciones_seleccionadas = form.cleaned_data['opciones']
-            opciones_seleccionadas.save()
-            return redirect('subject:subject-list')
+            selected_options = form.cleaned_data['opciones']
+            for subject_id in selected_options:
+                subject = Subject.objects.get(id=subject_id)
+                Enrollment.objects.get_or_create(student=request.user, subject=subject)
+            return redirect('subjects:subject-list')
     else:
-        form = EnrollmentForm()
+        form = EnrollmentForm(user=request.user)
 
-    return render(request, 'elegir_opciones.html', {'form': form})
+    return render(request, 'subjects/enrollment.html', {'form': form})
 
 
+@login_required
+@role_required('S')
 def unenroll_subjects(request):
     if request.method == 'POST':
-        form = EnrollmentForm(request.POST)
+        form = EnrollmentForm(request.POST, user=request.user)
         if form.is_valid():
-            opciones_seleccionadas = form.cleaned_data['opciones']
-            opciones_seleccionadas.delete()
-            return redirect('subject:subject-list')
+            selected_options = form.cleaned_data['opciones']
+            print(selected_options)
+            Enrollment.objects.filter(
+                student=request.user, subject__id__in=selected_options
+            ).delete()
+            return redirect('subjects:subject-list')
     else:
-        form = EnrollmentForm()
+        form = EnrollmentForm(user=request.user)
 
-    return render(request, 'elegir_opciones.html', {'form': form})
+    return render(request, 'subjects/enrollment.html', {'form': form})
 
 
 def subject_detail(request, code):
@@ -101,7 +110,6 @@ def add_lesson(request, pk):
     else:
         form = LessonForm()
     return render(request, 'lesson_form.html', {'form': form})
-    pass
 
 
 @role_required('T')

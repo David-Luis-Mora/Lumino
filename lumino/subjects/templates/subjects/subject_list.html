@@ -11,4 +11,7 @@
         <li><a href="{% url 'subjects:subject-detail' subject.code %}">{{subject.code}} | {{ subject.name }}</a></li>
     {% endfor %}
 </ul>
+<a href="{% url 'subjects:enroll-subjects'%}">Enroll</a>
+<a href="{% url 'subjects:unenroll-subjects'%}">Unenroll</a>
+
 {% endblock content %}
