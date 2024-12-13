@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from subjects.models import Enrollment
 
 from .models import Profile
