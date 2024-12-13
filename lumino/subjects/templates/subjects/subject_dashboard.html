@@ -5,10 +5,10 @@
 {% endblock navbar %}
 {% block content %}
 <h1>Panel de Estudiante: {{ subject.name }}</h1>
-<p>Teacher: {{subject.teacher}}</p>
-<p>Descripción: {{ subject.description }}</p>
+<p>Teacher: {{subject.teacher}} - Alias: {{subject.code}}</p>
+<p>Description: {{ subject.description }}</p>
 <ul class="list-group">
     <li class="list-group-item"><a href="{% url 'subjects:subject_lessons' subject.code %}">Lecciones</a></li>
-    <li><a href="#">Notas</a></li>
+    <li class="list-group-item"><a href="#">Notas</a></li>
 </ul>
 {% endblock content %}
