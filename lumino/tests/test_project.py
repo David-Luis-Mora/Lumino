@@ -3,9 +3,8 @@ from django.conf import settings
 from faker import Faker
 from model_bakery import baker
 from pytest_django.asserts import assertContains, assertRedirects
-
-from subjects.models import Lesson, Subject
-from users.models import Enrollment, Profile
+from subjects.models import Enrollment, Lesson, Subject
+from users.models import Profile
 
 # ==============================================================================
 # FIXTURES

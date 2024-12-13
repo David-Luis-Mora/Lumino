@@ -7,8 +7,8 @@
 <h1>Panel de Estudiante: {{ subject.name }}</h1>
 <p>Teacher: {{subject.teacher}}</p>
 <p>Descripción: {{ subject.description }}</p>
-<ul>
-    <li><a href="{% url 'subjects:subject_lessons' subject.code %}">Lecciones</a></li>
+<ul class="list-group">
+    <li class="list-group-item"><a href="{% url 'subjects:subject_lessons' subject.code %}">Lecciones</a></li>
     <li><a href="#">Notas</a></li>
 </ul>
 {% endblock content %}
