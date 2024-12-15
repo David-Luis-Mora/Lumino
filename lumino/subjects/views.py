@@ -108,11 +108,11 @@ def lesson_detail(request, pk):
     if request.user.profile.role == 'T':
         if subject.teacher != request.user:
             raise PermissionDenied()
-        return render(request, 'lesson_detail.html', {'lesson': lesson, 'can_edit': True})
+        return render(request, 'subjects/lesson_detail.html', {'lesson': lesson, 'can_edit': True})
     elif request.user.profile.role == 'S':
         if request.user not in subject.students.all():
             raise PermissionDenied()
-        return render(request, 'lesson_detail.html', {'lesson': lesson})
+        return render(request, 'subjects/lesson_detail.html', {'lesson': lesson})
     else:
         raise PermissionDenied()
 
@@ -143,10 +143,10 @@ def edit_lesson(request, pk):
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
-            return redirect('lesson_detail', pk=pk)
+            return redirect('subjects:subject-detail', code=lesson.subject.code)
     else:
         form = LessonForm(instance=lesson)
-    return render(request, 'lesson_form.html', {'form': form})
+    return render(request, 'subjects/lesson_form.html', {'form': form})
 
 
 @role_required('T')
@@ -154,11 +154,11 @@ def delete_lesson(request, pk):
     lesson = Lesson.objects.get(pk=pk)
     if lesson.subject.teacher != request.user:
         raise PermissionDenied()
-
     if request.method == 'POST':
+        code = lesson.subject.code
         lesson.delete()
-        return redirect('some_list_view')
-    return render(request, 'confirm_delete.html', {'object': lesson})
+        return redirect('subjects:subject-detail', code=code)
+    return render(request, 'subjects/confirm_delete.html', {'object': lesson})
 
 
 @role_required('T')

@@ -5,9 +5,9 @@
 <p>{{ lesson.content }}</p>
 
 {% if can_edit %}
-    <a href="{% url 'edit_lesson' lesson.pk %}">Editar Lección</a>
-    <a href="{% url 'delete_lesson' lesson.pk %}" style="color: red;">Borrar Lección</a>
+    <a href="{% url 'subjects:edit-lesson' lesson.pk %}">Editar Lección</a>
+    <a href="{% url 'subjects:delete-lesson' lesson.pk %}" style="color: red;">Borrar Lección</a>
 {% endif %}
 
-<a href="{% url 'subject_detail' lesson.subject.pk %}">Volver al módulo</a>
+<a href="{% url 'subjects:subject-detail' lesson.subject.code %}">Volver al módulo</a>
 {% endblock %}
