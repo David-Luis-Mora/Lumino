@@ -11,3 +11,4 @@ crispy-bootstrap5==2024.10
 django-browser-reload==1.17.0
 django-markdownify==0.9.5
 sorl-thumbnail==12.11.0
+# npm install bootstrap bootstrap-icons

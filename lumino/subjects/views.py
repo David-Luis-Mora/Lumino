@@ -62,10 +62,28 @@ def unenroll_subjects(request):
 
 def subject_detail(request, code):
     subject = Subject.objects.get(code=code)
+    enrollment = False
+    grade = False
+    lessons = subject.lessons.all()
     print(request.user)
     profile = request.user.profile
+    if profile.role == Profile.Role.TEACHER:
+        is_teacher = True
+    else:
+        is_teacher = False
+        enrollment = subject.enrollments.filter(student=request.user).first()
+        grade = enrollment.mark
 
-    return render(request, 'subjects/subject_dashboard.html', {'subject': subject})
+    return render(
+        request,
+        'subjects/subject_detail.html',
+        {
+            'subject': subject,
+            'is_teacher': is_teacher,
+            'lessons': lessons,
+            'grade': grade,
+        },
+    )
 
 
 def subject_lessons(request, code):
@@ -100,7 +118,7 @@ def lesson_detail(request, pk):
 
 
 @role_required('T')
-def add_lesson(request, pk):
+def add_lesson(request, code):
     if request.method == 'POST':
         form = LessonForm(request.POST)
         if form.is_valid():
@@ -108,10 +126,11 @@ def add_lesson(request, pk):
             if lesson.subject.teacher != request.user:
                 return HttpResponseForbidden('No tienes permisos.')
             lesson.save()
-            return redirect('lesson_detail', pk=lesson.pk)
+            return redirect('subjects:subject-detail', code=lesson.subject.code)
+
     else:
         form = LessonForm()
-    return render(request, 'lesson_form.html', {'form': form})
+    return render(request, 'subjects/lesson_form.html', {'form': form})
 
 
 @role_required('T')

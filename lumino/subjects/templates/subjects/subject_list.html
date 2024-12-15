@@ -15,7 +15,10 @@
 {% if not_teacher %}
     <a href="{% url 'subjects:enroll-subjects'%}"><button class="btn btn-primary">Enroll</button></a>
     <a href="{% url 'subjects:unenroll-subjects'%}"><button class="btn btn-danger">Unenroll</button></a>
+    
+
 {% endif %}
+
 
 
 {% endblock content %}

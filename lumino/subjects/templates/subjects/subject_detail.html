@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ subject.name }}{% endblock title %}
+
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+<h1>{{ subject.name }} - {{ subject.code }}</h1>
+<p>{{ subject.description }}</p>
+
+
+{% if is_teacher %}
+    <h2>Panel del Profesor</h2>
+    <a href="{% url 'subjects:add-lesson' subject.code %}">
+        <button class="btn btn-primary">Añadir Lección</button>
+    </a>
+    <a href="{% url 'subjects:edit-marks' subject.code %}">
+        <button class="btn btn-secondary">Editar Notas</button>
+    </a>
+    <ul class="list-group mt-4">
+        {% for lesson in lessons %}
+            <li class="list-group-item">
+                <p>{{ lesson.title }}</p>
+                <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">Ver</a>
+                <a href="{% url 'subjects:edit-lesson' subject.code lesson.pk %}">Editar</a>
+                <a href="{% url 'subjects:delete-lesson' subject.code lesson.pk %}">Borrar</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h2>Panel del Estudiante</h2>
+    {% if grade %}
+        <p>Nota del módulo: {{ grade }}</p>
+    {% endif %}
+    <ul class="list-group mt-4">
+        {% for lesson in lessons %}
+            <li class="list-group-item">
+                <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">
+                    {{ lesson.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock content %}
