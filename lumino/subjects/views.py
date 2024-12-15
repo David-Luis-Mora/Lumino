@@ -19,13 +19,15 @@ def subject_list(request):
         subjects = Subject.objects.filter(students=request.user)
         not_teacher = True
 
-    return render(request, 'subjects/subject_list.html', {'subjects': subjects, 'not_teacher':not_teacher})
+    return render(
+        request, 'subjects/subject_list.html', {'subjects': subjects, 'not_teacher': not_teacher}
+    )
 
 
 @login_required
 @role_required('S')
 def enroll_subjects(request):
-    msj = "Enroll"
+    msj = 'Enroll'
     if request.method == 'POST':
         form = EnrollmentForm(request.POST, user=request.user)
         if form.is_valid():
@@ -43,7 +45,7 @@ def enroll_subjects(request):
 @login_required
 @role_required('S')
 def unenroll_subjects(request):
-    msj = "Unenroll"
+    msj = 'Unenroll'
     if request.method == 'POST':
         form = UnenrollForm(request.POST, user=request.user)
         if form.is_valid():
@@ -55,7 +57,7 @@ def unenroll_subjects(request):
     else:
         form = UnenrollForm(user=request.user)
 
-    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj':msj})
+    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
 
 
 def subject_detail(request, code):
@@ -64,8 +66,6 @@ def subject_detail(request, code):
     profile = request.user.profile
 
     return render(request, 'subjects/subject_dashboard.html', {'subject': subject})
-    
-       
 
 
 def subject_lessons(request, code):
