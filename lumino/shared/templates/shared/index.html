@@ -6,8 +6,20 @@
   
 {% endblock navbar %}
 {% block content %}
-  <i class="bi bi-person-check"><a href="{% url 'login' %}">Login</a></i>
-  <i class="bi bi-person-add"><a href="{% url 'signup' %}">Sign up</a></i>
+  <div class="container p-10">
+    <div class="row align-items-center">
+      <div class="col-6 text-end">
+        <h1><i class="bi bi-person-check" width='16' height='16'></i></h1>
+        <a href="{% url 'login' %}">Login</a>
+      </div>
+      <div class="col-6">
+        <h1><i class="bi bi-person-add"></i></h1>
+        <a href="{% url 'signup' %}">Sign up</a>
+      </div>
+    </div>
+  </div>
+  
+  
 {% endblock %}
  
   
