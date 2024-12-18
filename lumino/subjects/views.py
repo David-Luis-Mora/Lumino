@@ -65,14 +65,21 @@ def subject_detail(request, code):
     enrollment = False
     grade = False
     lessons = subject.lessons.all()
-    print(request.user)
     profile = request.user.profile
+    user = request.user
     if profile.role == Profile.Role.TEACHER:
-        is_teacher = True
+        if subject.teacher == user:
+            is_teacher = True
+        else:
+            raise PermissionDenied()
     else:
-        is_teacher = False
         enrollment = subject.enrollments.filter(student=request.user).first()
-        grade = enrollment.mark
+        # enrolle = Enrollment.objects.filter(student=user, subject=subject)
+        if enrollment != None:
+            is_teacher = False
+            grade = enrollment.mark
+        else:
+            raise PermissionDenied()
 
     return render(
         request,

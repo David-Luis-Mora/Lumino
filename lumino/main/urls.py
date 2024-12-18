@@ -24,8 +24,8 @@ urlpatterns = [
     path('login/', accounts.views.user_login, name='login'),
     path('logout/', accounts.views.user_logout, name='logout'),
     path('signup/', accounts.views.user_signup, name='signup'),
-    path('subjects/', include('subjects.urls')),
-    path('', include('shared.urls')),
+    path('', include('subjects.urls')),
+    path('homepage/', include('shared.urls')),
     # path('users/', include('users.urls')),
     path('admin/', admin.site.urls),
 ]

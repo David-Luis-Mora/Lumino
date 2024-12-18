@@ -131,7 +131,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = '/'
+LOGIN_URL = 'homepage/'
 
 STATICFILES_DIRS = [BASE_DIR / 'node_modules']
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
