@@ -11,9 +11,7 @@ class LessonForm(forms.ModelForm):
 
 class EnrollmentForm(forms.Form):
     options = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-        required=True,
-        label="Enroll to the desiered subjects:"
+        widget=forms.CheckboxSelectMultiple, required=True, label='Enroll to the desiered subjects:'
     )
 
     def __init__(self, *args, **kwargs):
@@ -29,11 +27,12 @@ class EnrollmentForm(forms.Form):
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]
 
+
 class UnenrollForm(forms.Form):
     options = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
         required=True,
-        label="Unenroll from the desiered subjects:"
+        label='Unenroll from the desiered subjects:',
     )
 
     def __init__(self, *args, **kwargs):

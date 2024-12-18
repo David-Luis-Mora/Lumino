@@ -126,18 +126,24 @@ def lesson_detail(request, pk):
 
 @role_required('T')
 def add_lesson(request, code):
-    if request.method == 'POST':
-        form = LessonForm(request.POST)
-        if form.is_valid():
-            lesson = form.save(commit=False)
-            if lesson.subject.teacher != request.user:
-                return HttpResponseForbidden('No tienes permisos.')
-            lesson.save()
-            return redirect('subjects:subject-detail', code=lesson.subject.code)
+    subject = Subject.objects.get(code=code)
+    user = request.user
+    if subject.teacher == user:
+        if request.method == 'POST':
+            form = LessonForm(request.POST)
+            if form.is_valid():
+                lesson = form.save(commit=False)
+                if lesson.subject.teacher != request.user:
+                    return HttpResponseForbidden('No tienes permisos.')
+                lesson.save()
+                return redirect('subjects:subject-detail', code=lesson.subject.code)
 
+        else:
+            form = LessonForm()
+            form
+        return render(request, 'subjects/lesson_form.html', {'form': form})
     else:
-        form = LessonForm()
-    return render(request, 'subjects/lesson_form.html', {'form': form})
+        raise PermissionDenied()
 
 
 @role_required('T')
