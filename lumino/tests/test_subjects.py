@@ -6,6 +6,7 @@ import pytest
 from django.core.mail import EmailMessage
 from model_bakery import baker
 from pytest_django.asserts import assertContains, assertNotContains, assertRedirects
+
 from subjects.models import Enrollment
 from subjects.tasks import deliver_certificate
 
@@ -43,8 +44,8 @@ def test_subject_list_for_student_contains_links_for_subject_details(client, stu
 
 
 @pytest.mark.django_db
-def test_enroll_link_exists_in_subject_list_for_students(client, teacher):
-    client.force_login(teacher)
+def test_enroll_link_exists_in_subject_list_for_students(client, student):
+    client.force_login(student)
     response = client.get('/subjects/')
     assertContains(response, 'href="/subjects/enroll/"')
 
@@ -54,6 +55,20 @@ def test_unenroll_link_exists_in_subject_list_for_students(client, student):
     client.force_login(student)
     response = client.get('/subjects/')
     assertContains(response, 'href="/subjects/unenroll/"')
+
+
+@pytest.mark.django_db
+def test_enroll_link_does_not_exist_in_subject_list_for_teachers(client, teacher):
+    client.force_login(teacher)
+    response = client.get('/subjects/')
+    assertNotContains(response, 'href="/subjects/enroll/"')
+
+
+@pytest.mark.django_db
+def test_unenroll_link_does_not_exist_in_subject_list_for_teachers(client, teacher):
+    client.force_login(teacher)
+    response = client.get('/subjects/')
+    assertNotContains(response, 'href="/subjects/unenroll/"')
 
 
 @pytest.mark.django_db

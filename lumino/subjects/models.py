@@ -14,7 +14,7 @@ class Subject(models.Model):
     students = models.ManyToManyField(User, related_name='student_subjects', through='Enrollment')
     teacher = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='teacher_subjects',
     )
 
