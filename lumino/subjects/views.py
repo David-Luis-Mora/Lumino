@@ -60,6 +60,7 @@ def unenroll_subjects(request):
     return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
 
 
+@login_required
 def subject_detail(request, code):
     subject = Subject.objects.get(code=code)
     enrollment = False
@@ -93,6 +94,7 @@ def subject_detail(request, code):
     )
 
 
+@login_required
 def subject_lessons(request, code):
     subject = Subject.objects.get(code=code)
     lessons = Lesson.objects.filter(subject=subject)
@@ -108,6 +110,7 @@ def subject_lessons(request, code):
         )
 
 
+@login_required
 def lesson_detail(request, pk):
     lesson = Lesson.objects.get(pk=pk)
     subject = lesson.subject
@@ -124,6 +127,7 @@ def lesson_detail(request, pk):
         raise PermissionDenied()
 
 
+@login_required
 @role_required('T')
 def add_lesson(request, code):
     subject = Subject.objects.get(code=code)
@@ -146,6 +150,7 @@ def add_lesson(request, code):
         raise PermissionDenied()
 
 
+@login_required
 @role_required('T')
 def edit_lesson(request, pk):
     lesson = Lesson.objects.get(pk=pk)
@@ -162,6 +167,7 @@ def edit_lesson(request, pk):
     return render(request, 'subjects/lesson_form.html', {'form': form})
 
 
+@login_required
 @role_required('T')
 def delete_lesson(request, pk):
     lesson = Lesson.objects.get(pk=pk)
@@ -174,6 +180,7 @@ def delete_lesson(request, pk):
     return render(request, 'subjects/confirm_delete.html', {'object': lesson})
 
 
+@login_required
 @role_required('T')
 def mark_list(request):
     subject = Subject.objects.get(code='DSW', teacher=request.user)
@@ -181,6 +188,7 @@ def mark_list(request):
     return render(request, 'mark_list.html', {'enrollments': enrollments})
 
 
+@login_required
 @role_required('T')
 def edit_marks(request):
     subjects = Subject.objects.filter(teacher=request.user)
