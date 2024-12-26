@@ -24,8 +24,8 @@ def subject_list(request):
     )
 
 
-@login_required
 @role_required('S')
+@login_required
 def enroll_subjects(request):
     msj = 'Enroll'
     if request.method == 'POST':

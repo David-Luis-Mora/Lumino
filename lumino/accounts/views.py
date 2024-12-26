@@ -31,7 +31,6 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-
     return redirect('shared:index')
 
 
@@ -39,9 +38,7 @@ def user_signup(request):
     if request.method == 'POST':
         if (form := SignupForm(request.POST)).is_valid():
             user = form.save()
-            # Profile.objects.create(user=user)
             login(request, user)
-
             return redirect('subjects:subject-list')
     else:
         form = SignupForm()
