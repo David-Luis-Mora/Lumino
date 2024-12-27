@@ -7,6 +7,13 @@
 {% endblock navbar %}
 {% block content %}
 <p>Welcome to Lumino. Nice to see you!</p>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="alert alert-info">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <ul class="list-group">
     {% for subject in subjects %}
         <li class="list-group-item"><a href="{% url 'subjects:subject-detail' subject.code %}">{{subject.code}} | {{ subject.name }}</a></li>

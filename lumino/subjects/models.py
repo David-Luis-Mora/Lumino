@@ -44,3 +44,9 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f'{self.student.username} - {self.subject.name}'
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['options'].queryset = Subject.objects.exclude(enrollments__student=user)

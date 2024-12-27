@@ -9,30 +9,19 @@
 <h1>{{ subject.name }} - {{ subject.code }}</h1>
 <p>{{ subject.description }}</p>
 
-
 {% if is_teacher %}
-    <h2>Panel del Profesor</h2>
-    <a href="{% url 'subjects:add-lesson' subject.code %}">
-        <button class="btn btn-primary">Añadir Lección</button>
-    </a>
-    <a href="{% url 'subjects:edit-marks' subject.code %}">
-        <button class="btn btn-secondary">Editar Notas</button>
-    </a>
     <ul class="list-group mt-4">
         {% for lesson in lessons %}
             <li class="list-group-item">
                 <p>{{ lesson.title }}</p>
-                        <a href="{% url 'subjects:lesson-detail' lesson.pk %}">Ver</a>
+                <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">Ver</a>
                 <a href="{% url 'subjects:edit-lesson' lesson.pk %}">Editar</a>
+                {% comment %} <a href="{% url 'subjects:edit-lesson' subject.code lesson.pk %}">Editar</a> {% endcomment %}
                 <a href="{% url 'subjects:delete-lesson' lesson.pk %}">Borrar</a>
             </li>
         {% endfor %}
     </ul>
 {% else %}
-    <h2>Panel del Estudiante</h2>
-    {% if grade %}
-        <p>Nota del módulo: {{ grade }}</p>
-    {% endif %}
     <ul class="list-group mt-4">
         {% for lesson in lessons %}
             <li class="list-group-item">
@@ -44,3 +33,5 @@
     </ul>
 {% endif %}
 {% endblock content %}
+
+

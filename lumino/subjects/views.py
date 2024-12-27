@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
+
 from shared.decorators import role_required
 from users.models import Profile
 
@@ -24,8 +26,8 @@ def subject_list(request):
     )
 
 
-@role_required('S')
 @login_required
+@role_required('S')
 def enroll_subjects(request):
     msj = 'Enroll'
     if request.method == 'POST':
@@ -35,6 +37,7 @@ def enroll_subjects(request):
             for subject_id in selected_options:
                 subject = Subject.objects.get(id=subject_id)
                 Enrollment.objects.get_or_create(student=request.user, subject=subject)
+            messages.success(request, 'Successfully enrolled in the chosen subjects.')
             return redirect('subjects:subject-list')
     else:
         form = EnrollmentForm(user=request.user)
@@ -53,6 +56,7 @@ def unenroll_subjects(request):
             for subject_id in selected_options:
                 subject = Subject.objects.get(id=subject_id)
                 Enrollment.objects.filter(student=request.user, subject=subject).delete()
+            messages.success(request, 'Successfully unenrolled from the chosen subjects.')
             return redirect('subjects:subject-list')
     else:
         form = UnenrollForm(user=request.user)
@@ -111,10 +115,9 @@ def subject_lessons(request, code):
 
 
 @login_required
-def lesson_detail(request, pk):
-    lesson = Lesson.objects.get(pk=pk)
+def lesson_detail(request, code, pk):
+    lesson = Lesson.objects.get(pk=pk, subject__code=code)
     subject = lesson.subject
-
     if request.user.profile.role == 'T':
         if subject.teacher != request.user:
             raise PermissionDenied()
@@ -122,7 +125,9 @@ def lesson_detail(request, pk):
     elif request.user.profile.role == 'S':
         if request.user not in subject.students.all():
             raise PermissionDenied()
-        return render(request, 'subjects/lesson_detail.html', {'lesson': lesson})
+        return render(
+            request, 'subjects/lesson_detail.html', {'lesson': lesson, 'subject': lesson.subject}
+        )
     else:
         raise PermissionDenied()
 
@@ -147,21 +152,22 @@ def add_lesson(request, code):
             form
         return render(request, 'subjects/lesson_form.html', {'form': form})
     else:
-        raise PermissionDenied()
+        raise PermissionDenied("You don't have permission to edit this lesson.")
 
 
 @login_required
 @role_required('T')
-def edit_lesson(request, pk):
-    lesson = Lesson.objects.get(pk=pk)
+def edit_lesson(request, code, pk):
+    lesson = Lesson.objects.get(pk=pk, subject__code=code)
     if lesson.subject.teacher != request.user:
-        raise PermissionDenied()
+        raise PermissionDenied("You don't have permission to edit this lesson.")
 
     if request.method == 'POST':
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
-            return redirect('subjects:subject-detail', code=lesson.subject.code)
+            # messages.success(request, 'Lesson updated successfully.')
+            return redirect('subjects:subject-detail', code=code)
     else:
         form = LessonForm(instance=lesson)
     return render(request, 'subjects/lesson_form.html', {'form': form})

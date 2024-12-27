@@ -10,6 +10,8 @@
 </form>
 
 {% comment %} <a href="{% url 'subject-detail' form.instance.subject.code %}">Volver al módulo</a> {% endcomment %}
+<a href="{% url 'subjects:subject-detail' form.instance.subject.code %}">Volver al módulo</a>
+
 
 {% endblock %}
 

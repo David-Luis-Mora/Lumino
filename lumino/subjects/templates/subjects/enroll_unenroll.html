@@ -6,6 +6,13 @@
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
 {% block content %}
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="alert alert-info">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 <div class="container mt-5">
   <form method="post">
     {% csrf_token %}
