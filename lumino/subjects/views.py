@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
-
 from shared.decorators import role_required
 from users.models import Profile
 
@@ -175,8 +174,8 @@ def edit_lesson(request, code, pk):
 
 @login_required
 @role_required('T')
-def delete_lesson(request, pk):
-    lesson = Lesson.objects.get(pk=pk)
+def delete_lesson(request, code, pk):
+    lesson = Lesson.objects.get(pk=pk, subject__code=code)
     if lesson.subject.teacher != request.user:
         raise PermissionDenied()
     if request.method == 'POST':

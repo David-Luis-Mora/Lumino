@@ -12,14 +12,12 @@
 {% if is_teacher %}
     <ul class="list-group mt-4">
         {% for lesson in lessons %}
-            <li class="list-group-item">
-                <p>{{ lesson.title }}</p>
-                <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">Ver</a>
-                <a href="{% url 'subjects:edit-lesson' lesson.pk %}">Editar</a>
-                {% comment %} <a href="{% url 'subjects:edit-lesson' subject.code lesson.pk %}">Editar</a> {% endcomment %}
-                <a href="{% url 'subjects:delete-lesson' lesson.pk %}">Borrar</a>
-            </li>
+            <p>{{ lesson.title }}</p>
+            <a href="{% url 'subjects:lesson-detail' lesson.subject.code lesson.pk %}">Ver Detalle</a>
+            <a href="{% url 'subjects:edit-lesson' lesson.subject.code lesson.pk %}">Editar</a>
+            <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}">Eliminar</a>
         {% endfor %}
+
     </ul>
 {% else %}
     <ul class="list-group mt-4">

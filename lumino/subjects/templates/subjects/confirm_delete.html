@@ -6,7 +6,7 @@
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit" style="color: red;">Eliminar</button>
-    <a href="{% url 'subjects:lesson-detail' object.pk %}">Cancelar</a>
+    <button type="submit">Eliminar</button>
+    <a href="{% url 'subjects:lesson-detail' object.subject.code object.pk %}">Cancelar</a>
 </form>
 {% endblock %}
