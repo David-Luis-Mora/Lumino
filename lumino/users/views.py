@@ -15,7 +15,9 @@ from .models import Profile
 
 def user_detail(request, username):
     user = User.objects.get(username=username)
-    return render(request, 'users/user_detail.html', {'user': user})
+    bio = user.profile.bio
+    role = user.profile.get_role_display()
+    return render(request, 'users/user_detail.html', {'user': user, 'role': role, 'bio': bio})
 
 
 @login_required
@@ -37,7 +39,7 @@ def edit_profile(request):
 def leave(request):
     profile = request.user.profile
     if profile.role == Profile.Role.TEACHER:
-        raise PermissionDenied('Los profesores no pueden abandonar la plataforma.')
+        return PermissionDenied('Los profesores no pueden abandonar la plataforma.')
     user = request.user
     user.delete()
     messages.success(request, 'Good bye! Hope to see you soon.')

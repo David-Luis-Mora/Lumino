@@ -9,6 +9,14 @@
 <h1>{{ subject.name }} - {{ subject.code }}</h1>
 <p>{{ subject.description }}</p>
 
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% if is_teacher %}
     <ul class="list-group mt-4">
         {% for lesson in lessons %}

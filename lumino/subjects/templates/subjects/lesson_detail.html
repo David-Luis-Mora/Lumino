@@ -2,6 +2,15 @@
 {% block content %}
 <h1>{{ lesson.title }}</h1>
 <p>{{ lesson.content }}</p>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% if can_edit %}
     <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}" style="color: red;">Borrar Lección</a>
     <a href="{% url 'subjects:edit-lesson' lesson.subject.code lesson.pk %}">Editar Lección</a>

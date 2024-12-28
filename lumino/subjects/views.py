@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
-from shared.decorators import role_required
 from users.models import Profile
 
 from .forms import EnrollmentForm, LessonForm, UnenrollForm
@@ -25,8 +24,8 @@ def subject_list(request):
     )
 
 
+# @role_required('S')
 @login_required
-@role_required('S')
 def enroll_subjects(request):
     msj = 'Enroll'
     if request.method == 'POST':
@@ -44,8 +43,8 @@ def enroll_subjects(request):
     return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
 
 
+# @role_required('S')
 @login_required
-@role_required('S')
 def unenroll_subjects(request):
     msj = 'Unenroll'
     if request.method == 'POST':
@@ -131,8 +130,8 @@ def lesson_detail(request, code, pk):
         raise PermissionDenied()
 
 
+# @role_required('T')
 @login_required
-@role_required('T')
 def add_lesson(request, code):
     subject = Subject.objects.get(code=code)
     user = request.user
@@ -154,8 +153,8 @@ def add_lesson(request, code):
         raise PermissionDenied("You don't have permission to edit this lesson.")
 
 
+# @role_required('T')
 @login_required
-@role_required('T')
 def edit_lesson(request, code, pk):
     subject = Subject.objects.get(code=code)
     lesson = Lesson.objects.get(pk=pk, subject=subject)
@@ -175,8 +174,8 @@ def edit_lesson(request, code, pk):
     return render(request, 'subjects/lesson_form.html', {'form': form, 'subject': subject})
 
 
+# @role_required('T')
 @login_required
-@role_required('T')
 def delete_lesson(request, code, pk):
     lesson = Lesson.objects.get(pk=pk, subject__code=code)
     if lesson.subject.teacher != request.user:
@@ -184,12 +183,13 @@ def delete_lesson(request, code, pk):
     if request.method == 'POST':
         code = lesson.subject.code
         lesson.delete()
+        messages.success(request, 'Lesson was successfully deleted.')
         return redirect('subjects:subject-detail', code=code)
     return render(request, 'subjects/confirm_delete.html', {'object': lesson})
 
 
+# @role_required('T')
 @login_required
-@role_required('T')
 def mark_list(request, code):
     subject = Subject.objects.get(code=code, teacher=request.user)
     enrollments = subject.enrollments.all()
@@ -198,8 +198,8 @@ def mark_list(request, code):
     )
 
 
+# @role_required('T')
 @login_required
-@role_required('T')
 def edit_marks(request, code):
     subject = Subject.objects.get(code=code, teacher=request.user)
     # raise PermissionDenied('No tienes permiso para editar calificaciones en este módulo.')

@@ -7,6 +7,14 @@
 {% endblock navbar %}
 {% block content %}
 
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <a href="{% url 'users:edit-profile'    %}"><button class="btn btn-primary">Editar Perfil</button></a>
 <p>Welcome to Lumino. Nice to see you!</p>
 {% if messages %}

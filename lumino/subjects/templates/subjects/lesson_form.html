@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <h1>{% if form.instance.pk %}Editar Lección{% else %}Añadir Lección{% endif %}</h1>
 <form method="post">
     {% csrf_token %}
