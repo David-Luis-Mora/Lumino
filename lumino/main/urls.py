@@ -26,6 +26,7 @@ urlpatterns = [
     path('signup/', accounts.views.user_signup, name='signup'),
     path('', include('shared.urls')),
     path('subjects/', include('subjects.urls')),
+    path('users/', include('users.urls')),
     # path('homepage/', include('shared.urls')),
     # path('users/', include('users.urls')),
     path('admin/', admin.site.urls),

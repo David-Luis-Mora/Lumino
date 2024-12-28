@@ -6,6 +6,8 @@
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
 {% block content %}
+
+<a href="{% url 'users:edit-profile'    %}"><button class="btn btn-primary">Editar Perfil</button></a>
 <p>Welcome to Lumino. Nice to see you!</p>
 {% if messages %}
     <ul class="messages">
@@ -22,8 +24,6 @@
 {% if not_teacher %}
     <a href="{% url 'subjects:enroll-subjects'%}"><button class="btn btn-primary">Enroll</button></a>
     <a href="{% url 'subjects:unenroll-subjects'%}"><button class="btn btn-danger">Unenroll</button></a>
-    
-
 {% endif %}
 
 

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %} Calificaciones de {{ subject.name }} {% endblock title %}
+{% block title %}Calificaciones de {{ subject.name }}{% endblock title %}
+
 {% block content %}
 <h1>Calificaciones - {{ subject.name }}</h1>
 
@@ -13,13 +14,18 @@
     <tbody>
         {% for enrollment in enrollments %}
             <tr>
-                <td>{{ enrollment.student.username }}</td>
-                <td>{{ enrollment.mark }}</td>
+                <td>
+                    <a href="{% url 'users:user-detail' enrollment.student.username %}">
+                    {{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
+                    </a>
+                </td>
+                <td>{{ enrollment.mark|default:"No asignada" }}</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<a href="{% url 'subjects:edit-marks' subject.code %}">Editar Calificaciones</a>
-<a href="{% url 'subjects:subject-detail' subject.code %}">Volver al módulo</a>
+<a href="{% url 'subjects:edit-marks' subject.code %}" class="btn btn-secondary">Editar Calificaciones</a>
+<a href="{% url 'subjects:subject-detail' subject.code %}" class="btn btn-primary">Volver al módulo</a>
 {% endblock %}
+

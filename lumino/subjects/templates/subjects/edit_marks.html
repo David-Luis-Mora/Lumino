@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
+{% block title %}Editar Calificaciones - {{ subject.name }}{% endblock title %}
+
 {% block content %}
+<h1>Editar Calificaciones - {{ subject.name }}</h1>
+
+{% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table>
+        <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Calificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+                <tr>
+                    <td>{{ form.instance.student.first_name }} {{ form.instance.student.last_name }}</td>
+                    <td>{{ form.mark }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+<a href="{% url 'subjects:subject-detail' subject.code %}" class="btn btn-secondary">Volver al módulo</a>
+{% endblock %}
+
+{% comment %} {% block content %}
 <h1>Editar Calificaciones</h1>
 {% if subjects %}
     <h2>Asignaturas</h2>
@@ -34,6 +68,5 @@
 {% else %}
     <p>No tienes asignaturas asignadas.</p>
 {% endif %}
-
-{% endblock %}
+{% endblock %} {% endcomment %}
 

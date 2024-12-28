@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseForbidden
+from django.forms import modelformset_factory
 from django.shortcuts import redirect, render
 from shared.decorators import role_required
 from users.models import Profile
@@ -143,7 +143,7 @@ def add_lesson(request, code):
                 lesson = form.save(commit=False)
                 lesson.subject = subject
                 if lesson.subject.teacher != request.user:
-                    return HttpResponseForbidden('No tienes permisos.')
+                    return PermissionDenied('No tienes permisos.')
                 lesson.save()
                 return redirect('subjects:subject-detail', code=lesson.subject.code)
 
@@ -190,34 +190,31 @@ def delete_lesson(request, code, pk):
 
 @login_required
 @role_required('T')
-def mark_list(request):
-    subject = Subject.objects.get(code='DSW', teacher=request.user)
+def mark_list(request, code):
+    subject = Subject.objects.get(code=code, teacher=request.user)
     enrollments = subject.enrollments.all()
-    return render(request, 'mark_list.html', {'enrollments': enrollments})
+    return render(
+        request, 'subjects/mark_list.html', {'enrollments': enrollments, 'subject': subject}
+    )
 
 
 @login_required
 @role_required('T')
-def edit_marks(request):
-    subjects = Subject.objects.filter(teacher=request.user)
+def edit_marks(request, code):
+    subject = Subject.objects.get(code=code, teacher=request.user)
+    # raise PermissionDenied('No tienes permiso para editar calificaciones en este módulo.')
+    enrollments = Enrollment.objects.filter(subject=subject)
 
-    if not subjects.exists():
-        raise PermissionDenied('No tienes asignaturas asignadas para editar calificaciones.')
-
-    enrollments = Enrollment.objects.filter(subject__in=subjects)
-
-    EnrollmentFormSet = Enrollment.object.get(
-        fields=('mark',),
-        extra=0,
-        can_delete=False,
+    EnrollmentFormSet = modelformset_factory(
+        Enrollment, fields=('mark',), extra=0, can_delete=False
     )
 
     if request.method == 'POST':
         formset = EnrollmentFormSet(request.POST, queryset=enrollments)
         if formset.is_valid():
             formset.save()
-            return redirect('mark_list')
+            return redirect('subjects:mark-list', code=subject.code)
     else:
         formset = EnrollmentFormSet(queryset=enrollments)
 
-    return render(request, 'edit_marks.html', {'subjects': subjects, 'formset': formset})
+    return render(request, 'subjects/edit_marks.html', {'formset': formset, 'subject': subject})

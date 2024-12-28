@@ -18,6 +18,7 @@
             <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}">Eliminar</a>
         {% endfor %}
         <a href="{% url 'subjects:add-lesson' subject.code %}">Añadir Lección</a>
+        <a href="{% url 'subjects:mark-list' subject.code %}">Notas</a>
     </ul>
 {% else %}
     <ul class="list-group mt-4">
