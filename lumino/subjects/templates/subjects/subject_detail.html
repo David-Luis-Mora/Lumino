@@ -17,7 +17,7 @@
             <a href="{% url 'subjects:edit-lesson' lesson.subject.code lesson.pk %}">Editar</a>
             <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}">Eliminar</a>
         {% endfor %}
-
+        <a href="{% url 'subjects:add-lesson' subject.code %}">Añadir Lección</a>
     </ul>
 {% else %}
     <ul class="list-group mt-4">

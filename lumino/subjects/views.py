@@ -141,6 +141,7 @@ def add_lesson(request, code):
             form = LessonForm(request.POST)
             if form.is_valid():
                 lesson = form.save(commit=False)
+                lesson.subject = subject
                 if lesson.subject.teacher != request.user:
                     return HttpResponseForbidden('No tienes permisos.')
                 lesson.save()
@@ -148,8 +149,7 @@ def add_lesson(request, code):
 
         else:
             form = LessonForm()
-            form
-        return render(request, 'subjects/lesson_form.html', {'form': form})
+        return render(request, 'subjects/lesson_form.html', {'form': form, 'subject': subject})
     else:
         raise PermissionDenied("You don't have permission to edit this lesson.")
 
@@ -157,19 +157,22 @@ def add_lesson(request, code):
 @login_required
 @role_required('T')
 def edit_lesson(request, code, pk):
-    lesson = Lesson.objects.get(pk=pk, subject__code=code)
-    if lesson.subject.teacher != request.user:
+    subject = Subject.objects.get(code=code)
+    lesson = Lesson.objects.get(pk=pk, subject=subject)
+
+    if request.user != subject.teacher:
         raise PermissionDenied("You don't have permission to edit this lesson.")
 
     if request.method == 'POST':
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
-            # messages.success(request, 'Lesson updated successfully.')
-            return redirect('subjects:subject-detail', code=code)
+            messages.success(request, 'Lesson updated successfully.')
+            return redirect('subjects:subject-detail', code=subject.code)
     else:
         form = LessonForm(instance=lesson)
-    return render(request, 'subjects/lesson_form.html', {'form': form})
+
+    return render(request, 'subjects/lesson_form.html', {'form': form, 'subject': subject})
 
 
 @login_required

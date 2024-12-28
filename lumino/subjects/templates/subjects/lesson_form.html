@@ -6,6 +6,6 @@
     {{ form.as_p }}
     <button type="submit">{% if form.instance.pk %}Guardar Cambios{% else %}Crear Lección{% endif %}</button>
 </form>
-<a href="{% url 'subjects:subject-detail' form.instance.subject.code %}">Volver al módulo</a>
+<a href="{% url 'subjects:subject-detail' subject.code %}">Volver al módulo</a>
 {% endblock %}
 
