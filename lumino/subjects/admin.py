@@ -10,7 +10,6 @@ class SubjectAdmin(admin.ModelAdmin):
     list_display = [
         'code',
         'name',
-        'description',
         # 'get_students',
         'teacher',
     ]

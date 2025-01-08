@@ -12,7 +12,12 @@ class Profile(models.Model):
     role = models.CharField(max_length=1, choices=Role, default=Role.STUDENT)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to='avatars/noavatar.png', blank=True, null=True)
+    avatar = models.ImageField(
+        upload_to='avatars/',
+        blank=True,
+        null=True,
+        default='avatars/noavatar.png',
+    )
 
     def __str__(self):
         return self.user.username
