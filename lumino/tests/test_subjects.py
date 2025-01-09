@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from model_bakery import baker
 from pytest_django.asserts import assertContains, assertNotContains, assertRedirects
 
-from shared.management.commands import subject_stats
+from subjects.management.commands import get_subject_stats
 from subjects.models import Enrollment
 from subjects.tasks import deliver_certificate
 
@@ -275,7 +275,9 @@ def test_request_grade_certificate_works(client, student, settings, monkeypatch)
     try:
         monkeypatch.setattr(deliver_certificate, 'delay', mock_deliver_certificate)
         monkeypatch.setattr(EmailMessage, 'send', mock_send_email)
-        certificate = settings.CERTIFICATES_DIR / f'{student.username}_grade_certificate.pdf'
+        certificate = (
+            settings.BASE_DIR / f'media/certificates/{student.username}_grade_certificate.pdf'
+        )
 
         client.force_login(student)
         response = client.get('/subjects/certificate/')
@@ -676,7 +678,7 @@ def test_edit_is_forbidden_for_students(client, teacher):
 
 @pytest.mark.django_db
 def test_management_command_to_show_subject_stats(capsys):
-    command = subject_stats.Command()
+    command = get_subject_stats.Command()
     test_data = []
     available_marks = list(range(1, 11)) + [None]
     for _ in range(10):
@@ -687,7 +689,10 @@ def test_management_command_to_show_subject_stats(capsys):
             baker.make_recipe('tests.enrollment', mark=mark, subject=subject, _quantity=20)
             if mark is not None:
                 marks.append(mark)
-        avg_mark = sum(marks) / len(marks)
+        try:
+            avg_mark = sum(marks) / len(marks)
+        except ZeroDivisionError:
+            avg_mark = 0
         test_data.append({'subject': subject, 'avg_mark': avg_mark})
     command.handle()
     excected_output = '\n'.join(f'{d['subject'].code}: {d['avg_mark']:.2f}' for d in test_data)
