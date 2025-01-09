@@ -35,7 +35,7 @@ def user_detail(request, username):
 
 
 @login_required
-def edit_profile(request, username):
+def edit_profile(request):
     profile = request.user.profile
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)

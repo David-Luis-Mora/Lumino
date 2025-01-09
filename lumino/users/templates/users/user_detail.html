@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
-
+{% load thumbnail %}
+{% block title %}
+    {{request.user.username}} | Detail
+{% endblock title %}
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
 {% block content %}
 
 
 <h1>Perfil de {{ user.username }}</h1>
-{% if user.profile.avatar %}
-    <img src="{{ user.profile.avatar }}" alt="Avatar de {{ user.username }}" style="width: 150px; height: 150px; border-radius: 50%;">
-{% else %}
-    <p>No hay avatar disponible.</p>
-{% endif %}
+{% thumbnail user.profile.avatar "200x200" crop="center" format="PNG" as thumb %}
+    <img src="{{thumb.url}}" alt="avatar">
+{% endthumbnail %}
 <p>Nombre completo: {{ user.first_name }} {{ user.last_name }}</p>
 <p>Correo electrónico: {{ user.email }}</p>
 <p>Rol: {{ user.profile.get_role_display }}</p>
 <p>Biografía: {{ user.profile.bio }}</p>
 
-<a href="{% url 'users:edit-profile' user.username %}">Editar perfil</a>
+<a href="{% url 'user:edit-profile'%}">Editar perfil</a>
 {% endblock %}

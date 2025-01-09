@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_browser_reload',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -135,11 +136,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/subjects/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'subjects'
 MESSAGE_LEVEL = messages.DEBUG
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CERTIFICATES_DIR = BASE_DIR / 'certificates'

@@ -28,6 +28,7 @@ def subject_list(request):
 @login_required
 def enroll_subjects(request):
     msj = 'Enroll'
+    msj2 = 'Successfully enrolled in the chosen subjects.'
     if request.method == 'POST':
         form = EnrollmentForm(request.POST, user=request.user)
         if form.is_valid():
@@ -40,7 +41,7 @@ def enroll_subjects(request):
     else:
         form = EnrollmentForm(user=request.user)
 
-    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
+    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj, 'msj2':msj2})
 
 
 # @role_required('S')

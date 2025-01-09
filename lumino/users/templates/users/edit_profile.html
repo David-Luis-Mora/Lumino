@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}Editar Perfil{% endblock %}
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
 <h1>Editar Perfil</h1>
@@ -17,5 +20,5 @@
     <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 
-<a href="{% url 'users:user-detail' request.user.username %}" class="btn btn-secondary">Cancelar</a>
+<a href="{% url 'user-detail' request.user.username %}" class="btn btn-secondary">Cancelar</a>
 {% endblock %}

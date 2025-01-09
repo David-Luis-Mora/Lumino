@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
 {% block title %}Calificaciones de {{ subject.name }}{% endblock title %}
 
 {% block content %}

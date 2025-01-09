@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block title %} Lecciones de {{ subject.name }} {% endblock title %}
-
+{% block navbar %}
+{% include "shared/navbar.html" %}
+{% endblock navbar %}
 {% block content %}
 
 {% if messages %}
