@@ -13,15 +13,29 @@ from .models import Profile
 # Create your views here.
 
 
+@login_required
 def user_detail(request, username):
     user = User.objects.get(username=username)
+    profile, created = Profile.objects.get_or_create(user=user)
     bio = user.profile.bio
     role = user.profile.get_role_display()
-    return render(request, 'users/user_detail.html', {'user': user, 'role': role, 'bio': bio})
+
+    # message = messages.get_messages(request)
+    return render(
+        request,
+        'users/user_detail.html',
+        {
+            'user': user,
+            'role': role,
+            'bio': bio,
+            'profile': profile,
+            'user_profile': user,
+        },
+    )
 
 
 @login_required
-def edit_profile(request):
+def edit_profile(request, username):
     profile = request.user.profile
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)

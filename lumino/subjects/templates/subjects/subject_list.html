@@ -15,7 +15,7 @@
 </div>
 {% endif %}
 
-<a href="{% url 'users:edit-profile'    %}"><button class="btn btn-primary">Editar Perfil</button></a>
+<a href="{% url 'users:edit-profile' user.username%}"><button class="btn btn-primary">Editar Perfil</button></a>
 <p>Welcome to Lumino. Nice to see you!</p>
 {% if messages %}
     <ul class="messages">

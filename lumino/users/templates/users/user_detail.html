@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
 <h1>Perfil de {{ user.username }}</h1>
 {% if user.profile.avatar %}
-    <img src="{{ user.profile.avatar.url }}" alt="Avatar de {{ user.username }}" style="width: 150px; height: 150px; border-radius: 50%;">
+    <img src="{{ user.profile.avatar }}" alt="Avatar de {{ user.username }}" style="width: 150px; height: 150px; border-radius: 50%;">
 {% else %}
     <p>No hay avatar disponible.</p>
 {% endif %}
@@ -11,4 +13,6 @@
 <p>Correo electrónico: {{ user.email }}</p>
 <p>Rol: {{ user.profile.get_role_display }}</p>
 <p>Biografía: {{ user.profile.bio }}</p>
+
+<a href="{% url 'users:edit-profile' user.username %}">Editar perfil</a>
 {% endblock %}

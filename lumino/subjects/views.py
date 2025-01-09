@@ -144,6 +144,7 @@ def add_lesson(request, code):
                 if lesson.subject.teacher != request.user:
                     return PermissionDenied('No tienes permisos.')
                 lesson.save()
+                messages.success(request, 'Lesson was successfully added.')
                 return redirect('subjects:subject-detail', code=lesson.subject.code)
 
         else:
@@ -166,7 +167,7 @@ def edit_lesson(request, code, pk):
         form = LessonForm(request.POST, instance=lesson)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Lesson updated successfully.')
+            messages.success(request, 'Changes were successfully saved.')
             return redirect('subjects:subject-detail', code=subject.code)
     else:
         form = LessonForm(instance=lesson)
@@ -213,6 +214,7 @@ def edit_marks(request, code):
         formset = EnrollmentFormSet(request.POST, queryset=enrollments)
         if formset.is_valid():
             formset.save()
+            messages.success(request, 'Marks were successfully saved.')
             return redirect('subjects:mark-list', code=subject.code)
     else:
         formset = EnrollmentFormSet(queryset=enrollments)

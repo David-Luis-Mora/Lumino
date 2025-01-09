@@ -1,5 +1,6 @@
 # Create your views here.
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
@@ -29,6 +30,7 @@ def user_login(request):
     )
 
 
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('shared:index')
