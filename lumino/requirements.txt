@@ -14,5 +14,3 @@ sorl-thumbnail==12.11.0
 weasyprint==63.1
 django-rq==3.0.0
 prettyconf==2.2.1
-#pip install sorl-thumbnail
-#npm install bootstrap bootstrap-icons
