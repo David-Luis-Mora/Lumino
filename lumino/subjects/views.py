@@ -38,10 +38,16 @@ def enroll_subjects(request):
                 Enrollment.objects.get_or_create(student=request.user, subject=subject)
             messages.success(request, 'Successfully enrolled in the chosen subjects.')
             return redirect('subjects:subject-list')
+        else:
+            messages.success(request, 'Successfully enrolled in the chosen subjects.')
+            return redirect('subjects:subject-list')
+
     else:
         form = EnrollmentForm(user=request.user)
 
-    return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj, 'msj2':msj2})
+    return render(
+        request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj, 'msj2': msj2}
+    )
 
 
 # @role_required('S')
@@ -57,6 +63,11 @@ def unenroll_subjects(request):
                 Enrollment.objects.filter(student=request.user, subject=subject).delete()
             messages.success(request, 'Successfully unenrolled from the chosen subjects.')
             return redirect('subjects:subject-list')
+        else:
+            messages.error(request, 'There was an error with your request.')
+            messages.success(request, 'Successfully unenrolled from the chosen subjects.')
+            return redirect('subjects:subject-list')
+
     else:
         form = UnenrollForm(user=request.user)
 
