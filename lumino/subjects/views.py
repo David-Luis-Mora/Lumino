@@ -228,6 +228,9 @@ def edit_marks(request, code):
             formset.save()
             messages.success(request, 'Marks were successfully saved.')
             return redirect('subjects:mark-list', code=subject.code)
+        # else:
+        #     for form in formset:
+        #         print(form.errors)
     else:
         formset = EnrollmentFormSet(queryset=enrollments)
 
