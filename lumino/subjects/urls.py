@@ -16,4 +16,5 @@ urlpatterns = [
     path('<str:code>/lessons/<int:pk>/delete/', views.delete_lesson, name='delete-lesson'),
     path('<str:code>/marks/', views.mark_list, name='mark-list'),
     path('<str:code>/marks/edit/', views.edit_marks, name='edit-marks'),
+    path('subjects/certificate/', views.request_certificate, name='request-certificate'),
 ]

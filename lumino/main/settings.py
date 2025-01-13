@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_browser_reload',
     'sorl.thumbnail',
+    'markdownify.apps.MarkdownifyConfig',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,21 @@ CERTIFICATES_DIR = BASE_DIR / 'certificates'
 STATICFILES_DIRS = [BASE_DIR / 'node_modules']
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+
+EMAIL_HOST = 'email-host'
+EMAIL_PORT = 'email-port'
+EMAIL_HOST_USER = 'email-host-user'
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = 'default-from-email'
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    },
+}
+
+
+# base_url = f'file://{absolute_path_to_assets}/'HTML('input.html', base_url=base_url).write_pdf('output.pdf')

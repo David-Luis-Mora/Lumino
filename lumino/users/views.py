@@ -4,8 +4,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
+
+from subjects.models import Subject
 
 from .forms import ProfileForm
 from .models import Profile
@@ -20,6 +22,8 @@ def user_detail(request, username):
     bio = user.profile.bio
     role = user.profile.get_role_display()
 
+    subjects = Subject.objects.filter(enrollments__student=user)
+
     # message = messages.get_messages(request)
     return render(
         request,
@@ -30,6 +34,7 @@ def user_detail(request, username):
             'bio': bio,
             'profile': profile,
             'user_profile': user,
+            'subjects': subjects,
         },
     )
 
@@ -52,8 +57,8 @@ def edit_profile(request):
 @login_required
 def leave(request):
     profile = request.user.profile
-    if profile.role == Profile.Role.TEACHER:
-        return PermissionDenied('Los profesores no pueden abandonar la plataforma.')
+    if profile.role == 'T':
+        return HttpResponseForbidden('Los profesores no pueden abandonar la plataforma.')
     user = request.user
     user.delete()
     messages.success(request, 'Good bye! Hope to see you soon.')

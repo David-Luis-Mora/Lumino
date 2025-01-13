@@ -18,5 +18,17 @@
 <p>Rol: {{ user.profile.get_role_display }}</p>
 <p>Biografía: {{ user.profile.bio }}</p>
 
+<h3>Mis asignaturas</h3>
+<ul>
+    {% for subject in subjects %}
+        <li>{{ subject.name }}</li>
+    {% empty %}
+        <li>No tienes asignaturas.</li>
+    {% endfor %}
+</ul>
+
 <a href="{% url 'user:edit-profile'%}">Editar perfil</a>
+{% if user.profile.role != 'T' %}
+    <a href="/user/leave/">Leave</a>
+{% endif %}
 {% endblock %}

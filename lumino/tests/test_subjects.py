@@ -6,6 +6,7 @@ import pytest
 from django.core.mail import EmailMessage
 from model_bakery import baker
 from pytest_django.asserts import assertContains, assertNotContains, assertRedirects
+
 from subjects.management.commands import get_subject_stats
 from subjects.models import Enrollment
 from subjects.tasks import deliver_certificate

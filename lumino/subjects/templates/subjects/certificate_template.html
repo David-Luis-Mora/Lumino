@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Certificate</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .certificate { text-align: center; margin: 50px auto; width: 80%; }
+        .header { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .student-info { margin: 20px 0; }
+        .footer { margin-top: 50px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="header">Grade Certificate</div>
+        <div class="student-info">
+            <p>Student Name: {{ student.get_full_name }}</p>
+            <p>Email: {{ student.email }}</p>
+            <p>Username: {{ student.username }}</p>
+        </div>
+        <div class="footer">
+            <p>Issued by: Subjects App</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.forms import modelformset_factory
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect, render
+
 from users.models import Profile
 
 from .forms import EnrollmentForm, LessonForm, UnenrollForm
@@ -12,15 +14,25 @@ from .models import Enrollment, Lesson, Subject
 @login_required
 def subject_list(request):
     profile = request.user.profile
+
     if profile.role == Profile.Role.TEACHER:
         subjects = Subject.objects.filter(teacher=request.user)
         not_teacher = False
+        show_certificate_link = False
     else:
         subjects = Subject.objects.filter(students=request.user)
         not_teacher = True
+        enrollments = Enrollment.objects.filter(student=request.user, subject__in=subjects)
+        show_certificate_link = all(enrollment.mark is not None for enrollment in enrollments)
 
     return render(
-        request, 'subjects/subject_list.html', {'subjects': subjects, 'not_teacher': not_teacher}
+        request,
+        'subjects/subject_list.html',
+        {
+            'subjects': subjects,
+            'not_teacher': not_teacher,
+            'show_certificate_link': show_certificate_link,
+        },
     )
 
 
@@ -147,6 +159,7 @@ def lesson_detail(request, code, pk):
 def add_lesson(request, code):
     subject = Subject.objects.get(code=code)
     user = request.user
+    msj = 'Lesson was successfully added.'
     if subject.teacher == user:
         if request.method == 'POST':
             form = LessonForm(request.POST)
@@ -161,7 +174,10 @@ def add_lesson(request, code):
 
         else:
             form = LessonForm()
-        return render(request, 'subjects/lesson_form.html', {'form': form, 'subject': subject})
+            print('Error del test-----------------------------------------')
+        return render(
+            request, 'subjects/lesson_form.html', {'form': form, 'subject': subject, 'msj': msj}
+        )
     else:
         raise PermissionDenied("You don't have permission to edit this lesson.")
 
@@ -204,7 +220,9 @@ def delete_lesson(request, code, pk):
 # @role_required('T')
 @login_required
 def mark_list(request, code):
-    subject = Subject.objects.get(code=code, teacher=request.user)
+    subject = Subject.objects.get(code=code)
+    if subject.teacher != request.user:
+        return HttpResponseForbidden('No tienes permisos para acceder a esta página.')
     enrollments = subject.enrollments.all()
     return render(
         request, 'subjects/mark_list.html', {'enrollments': enrollments, 'subject': subject}
@@ -214,7 +232,9 @@ def mark_list(request, code):
 # @role_required('T')
 @login_required
 def edit_marks(request, code):
-    subject = Subject.objects.get(code=code, teacher=request.user)
+    subject = Subject.objects.get(code=code)
+    if subject.teacher != request.user:
+        return HttpResponseForbidden('No tienes permisos para acceder a esta página.')
     # raise PermissionDenied('No tienes permiso para editar calificaciones en este módulo.')
     enrollments = Enrollment.objects.filter(subject=subject)
 
@@ -235,3 +255,13 @@ def edit_marks(request, code):
         formset = EnrollmentFormSet(queryset=enrollments)
 
     return render(request, 'subjects/edit_marks.html', {'formset': formset, 'subject': subject})
+
+
+def request_certificate(request):
+    enrollments = Enrollment.objects.filter(student=request.user)
+    if not all(enrollment.mark is not None for enrollment in enrollments):
+        return HttpResponseForbidden(
+            'No puedes solicitar el certificado. No todas tus asignaturas tienen calificación.'
+        )
+
+    return JsonResponse({'message': 'Solicitud de certificado enviada correctamente.'})

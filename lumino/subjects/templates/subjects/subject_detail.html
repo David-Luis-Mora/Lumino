@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title %}{{ subject.name }}{% endblock title %}
 
 {% block navbar %}
@@ -8,7 +9,12 @@
 {% block content %}
 <h1>{{ subject.name }} - {{ subject.code }}</h1>
 <p>{{ subject.description }}</p>
-<p>{{ grade}}</p>
+<p>{{ grade }}</p>
+
+{% comment %} {% if msj %}
+    <p>Lesson was successfully deleted.</p>  <!-- Muestra el mensaje si msj=True -->
+{% endif %} {% endcomment %}
+<p>Lesson was successfully deleted</p>
 
 {% if messages %}
 <div class="messages">
@@ -41,5 +47,6 @@
     </ul>
 {% endif %}
 {% endblock content %}
+
 
 

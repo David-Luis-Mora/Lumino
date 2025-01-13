@@ -7,6 +7,13 @@
 {% endblock navbar %}
 {% block content %}
 
+
+{% comment %} <a href="{% url 'subjects:request-certificate'%}"><button class="btn btn-primary">Certificate</button></a> {% endcomment %}
+
+{% if show_certificate_link %}
+<a href="/subjects/certificate/"><button class="btn btn-primary">Certificate</button></a>
+{% endif %}
+
 {% if messages %}
 <div class="messages">
     {% for message in messages %}
