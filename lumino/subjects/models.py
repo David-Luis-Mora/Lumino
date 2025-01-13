@@ -1,14 +1,15 @@
 # Create your models here.
 # user.profile.get_role_display
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
 class Enrollment(models.Model):
     student = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='enrolled'
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='enrolled'
     )  # change enrollments
     subject = models.ForeignKey(
         'subjects.Subject', on_delete=models.CASCADE, related_name='enrollments'
@@ -32,10 +33,10 @@ class Subject(models.Model):
     code = models.CharField(unique=True, max_length=255)
     name = models.CharField(max_length=255)
     students = models.ManyToManyField(
-        User, related_name='student_subjects', through=Enrollment, blank=True
+        settings.AUTH_USER_MODEL, related_name='student_subjects', through=Enrollment, blank=True
     )
     teacher = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         related_name='teacher_subjects',
     )
@@ -45,7 +46,9 @@ class Subject(models.Model):
 
 
 class Lesson(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='lessons')
+    subject = models.ForeignKey(
+        'subjects.Subject', on_delete=models.CASCADE, related_name='lessons'
+    )
     title = models.CharField(max_length=255)
     content = models.TextField(
         blank=True,
