@@ -708,10 +708,9 @@ def test_management_command_to_show_subject_stats(capsys):
 @pytest.mark.django_db
 def test_i18n_in_subject_list(client, teacher):
     client.force_login(teacher)
-    client.get('/subjects/')
-    response = client.get('/setlang/en/', follow=True)
+    response = client.get('/setlang/en/?next=/subjects/', follow=True)
     assertContains(response, 'My subjects')
-    response = client.get('/setlang/es/', follow=True)
+    response = client.get('/setlang/es/?next=/subjects/', follow=True)
     assertContains(response, 'Mis módulos')
 
 
