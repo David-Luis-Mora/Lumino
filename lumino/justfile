@@ -157,7 +157,7 @@ show-users role:
     ' 
 
 # Load fixtures into database
-load-data: check-venv clean-data
+load-data:clean-data
     #!/usr/bin/env bash
     ./manage.py loaddata fixtures/auth.json
     ./manage.py loaddata fixtures/users.json

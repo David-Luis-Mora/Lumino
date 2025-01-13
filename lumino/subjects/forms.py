@@ -27,6 +27,9 @@ class EnrollmentForm(forms.Form):
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]
 
+    def save(self, user):
+        pass
+
 
 class UnenrollForm(forms.Form):
     options = forms.MultipleChoiceField(

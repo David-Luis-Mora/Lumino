@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 import accounts.views
+import shared.views
 import users.views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -28,6 +29,7 @@ urlpatterns = [
     path('logout/', accounts.views.user_logout, name='logout'),
     path('signup/', accounts.views.user_signup, name='signup'),
     path('', include('shared.urls')),
+    path('setlang/<str:langcode>/', shared.views.setlang, name='setlang'),
     path('subjects/', include('subjects.urls')),
     path('users/<str:username>/', users.views.user_detail, name='user-detail'),
     path('user/', include('users.urls')),

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% block title %}
     {{request.user.username}} | Subjects
 {% endblock title %}
@@ -24,6 +26,9 @@
 
 <p>Welcome to Lumino. Nice to see you!</p>
 
+<a href="{% url 'setlang' 'en' %}?next={{ request.path }}">🇺🇸</a>
+<a href="{% url 'setlang' 'es' %}?next={{ request.path }}">🇪🇸</a>
+
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -31,6 +36,12 @@
         {% endfor %}
     </ul>
 {% endif %}
+
+
+
+
+<p>{% translate "My subjects" %}</p>
+
 <ul class="list-group">
     {% for subject in subjects %}
         <li class="list-group-item"><a href="{% url 'subjects:subject-detail' subject.code %}">{{subject.code}} | {{ subject.name }}</a></li>

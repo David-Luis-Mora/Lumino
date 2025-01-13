@@ -4,7 +4,6 @@ from django.core.exceptions import PermissionDenied
 from django.forms import modelformset_factory
 from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect, render
-
 from users.models import Profile
 
 from .forms import EnrollmentForm, LessonForm, UnenrollForm
@@ -50,9 +49,10 @@ def enroll_subjects(request):
                 Enrollment.objects.get_or_create(student=request.user, subject=subject)
             messages.success(request, 'Successfully enrolled in the chosen subjects.')
             return redirect('subjects:subject-list')
-        else:
-            messages.success(request, 'Successfully enrolled in the chosen subjects.')
-            return redirect('subjects:subject-list')
+        # else:
+
+        # messages.success(request, 'Successfully enrolled in the chosen subjects.')
+        # return redirect('subjects:subject-list')
 
     else:
         form = EnrollmentForm(user=request.user)

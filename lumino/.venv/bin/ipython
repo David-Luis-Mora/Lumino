@@ -1,4 +1,4 @@
-#!/home/alu/Escritorio/Lumino/lumino/.venv/bin/python
+#!/home/alu/Escritorio/Lumino/Lumino/lumino/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -6,7 +6,6 @@ import pytest
 from django.core.mail import EmailMessage
 from model_bakery import baker
 from pytest_django.asserts import assertContains, assertNotContains, assertRedirects
-
 from subjects.management.commands import get_subject_stats
 from subjects.models import Enrollment
 from subjects.tasks import deliver_certificate
@@ -287,9 +286,9 @@ def test_request_grade_certificate_works(client, student, settings, monkeypatch)
         clean_response = re.sub(r' {2,}', ' ', clean_response)
         msg = f'You will get the grade certificate quite soon at {student.email}'
         assert msg in clean_response, 'El mensaje de feedback no se ha dado correctamente'
-        assert certificate.exists(), (
-            'El certificado de calificaciones no se ha generado en la ruta esperada'
-        )
+        assert (
+            certificate.exists()
+        ), 'El certificado de calificaciones no se ha generado en la ruta esperada'
         assert sent_mail, 'No se ha invocado al método send() de EmailMessage.'
     except Exception as err:
         raise err
