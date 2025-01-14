@@ -27,6 +27,14 @@
     {% endfor %}
 </ul>
 
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <a href="{% url 'user:edit-profile'%}">Editar perfil</a>
 {% if user.profile.role != 'T' %}
     <a href="/user/leave/">Leave</a>

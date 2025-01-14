@@ -50,3 +50,7 @@ class UnenrollForm(forms.Form):
         self.fields['options'].choices = [
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]
+    
+    def save(self, user):
+        subject = Subject.objects.get(id=subject_id)
+        Enrollment.objects.filter(student=request.user, subject=subject).delete()

@@ -7,5 +7,4 @@ app_name = 'shared'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('setlang/es/', views.setlang, name='setlang'),
 ]
