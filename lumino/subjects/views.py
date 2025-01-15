@@ -174,7 +174,6 @@ def add_lesson(request, code):
 
         else:
             form = LessonForm()
-            print('Error del test-----------------------------------------')
         return render(
             request, 'subjects/lesson_form.html', {'form': form, 'subject': subject, 'msj': msj}
         )
