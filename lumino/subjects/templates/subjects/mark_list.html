@@ -1,26 +1,25 @@
 {% extends 'base.html' %}
+
 {% block navbar %}
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
-{% block title %}Calificaciones de {{ subject.name }}{% endblock title %}
+
+{% block title %}Grades from {{ subject.name }}{% endblock title %}
 
 {% block content %}
-
 {% if messages %}
-<div class="messages">
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-</div>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
 {% endif %}
-
 <h1>Calificaciones - {{ subject.name }}</h1>
-
 <table>
     <thead>
         <tr>
-            <th>Estudiante</th>
-            <th>Calificación</th>
+            <th>Student</th>
+            <th>Grade</th>
         </tr>
     </thead>
     <tbody>
@@ -37,7 +36,7 @@
     </tbody>
 </table>
 
-<a href="{% url 'subjects:edit-marks' subject.code %}" class="btn btn-secondary">Editar Calificaciones</a>
-<a href="{% url 'subjects:subject-detail' subject.code %}" class="btn btn-primary">Volver al módulo</a>
+<a href="{% url 'subjects:edit-marks' subject.code %}" class="btn btn-secondary">Edit Grades</a>
+<a href="{% url 'subjects:subject-detail' subject.code %}" class="btn btn-primary">Back</a>
 {% endblock %}
 

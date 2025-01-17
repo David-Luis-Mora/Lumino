@@ -2,8 +2,6 @@ from django.conf import settings
 from django.db import models
 
 # Create your models here.
-
-
 class Profile(models.Model):
     class Role(models.TextChoices):
         STUDENT = 'S', 'Student'

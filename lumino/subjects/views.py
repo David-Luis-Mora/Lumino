@@ -9,7 +9,6 @@ from users.models import Profile
 from .forms import EnrollmentForm, LessonForm, UnenrollForm
 from .models import Enrollment, Lesson, Subject
 
-
 @login_required
 def subject_list(request):
     profile = request.user.profile
@@ -34,8 +33,6 @@ def subject_list(request):
         },
     )
 
-
-# @role_required('S')
 @login_required
 def enroll_subjects(request):
     msj = 'Enroll'
@@ -49,11 +46,6 @@ def enroll_subjects(request):
                 Enrollment.objects.get_or_create(student=request.user, subject=subject)
             messages.success(request, 'Successfully enrolled in the chosen subjects.')
             return redirect('subjects:subject-list')
-        # else:
-
-        # messages.success(request, 'Successfully enrolled in the chosen subjects.')
-        # return redirect('subjects:subject-list')
-
     else:
         form = EnrollmentForm(user=request.user)
 
@@ -61,8 +53,6 @@ def enroll_subjects(request):
         request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj, 'msj2': msj2}
     )
 
-
-# @role_required('S')
 @login_required
 def unenroll_subjects(request):
     msj = 'Unenroll'
@@ -85,7 +75,6 @@ def unenroll_subjects(request):
 
     return render(request, 'subjects/enroll_unenroll.html', {'form': form, 'msj': msj})
 
-
 @login_required
 def subject_detail(request, code):
     subject = Subject.objects.get(code=code)
@@ -101,7 +90,6 @@ def subject_detail(request, code):
             raise PermissionDenied()
     else:
         enrollment = subject.enrollments.filter(student=request.user).first()
-        # enrolle = Enrollment.objects.filter(student=user, subject=subject)
         if enrollment != None:
             is_teacher = False
             grade = enrollment.mark
@@ -119,7 +107,6 @@ def subject_detail(request, code):
         },
     )
 
-
 @login_required
 def subject_lessons(request, code):
     subject = Subject.objects.get(code=code)
@@ -134,7 +121,6 @@ def subject_lessons(request, code):
         return render(
             request, 'subjects/lessons_student.html', {'subject': subject, 'lessons': lessons}
         )
-
 
 @login_required
 def lesson_detail(request, code, pk):
@@ -153,8 +139,6 @@ def lesson_detail(request, code, pk):
     else:
         raise PermissionDenied()
 
-
-# @role_required('T')
 @login_required
 def add_lesson(request, code):
     subject = Subject.objects.get(code=code)
@@ -180,8 +164,6 @@ def add_lesson(request, code):
     else:
         raise PermissionDenied("You don't have permission to edit this lesson.")
 
-
-# @role_required('T')
 @login_required
 def edit_lesson(request, code, pk):
     subject = Subject.objects.get(code=code)
@@ -201,8 +183,6 @@ def edit_lesson(request, code, pk):
 
     return render(request, 'subjects/lesson_form.html', {'form': form, 'subject': subject})
 
-
-# @role_required('T')
 @login_required
 def delete_lesson(request, code, pk):
     lesson = Lesson.objects.get(pk=pk, subject__code=code)
@@ -215,8 +195,6 @@ def delete_lesson(request, code, pk):
         return redirect('subjects:subject-detail', code=code)
     return render(request, 'subjects/confirm_delete.html', {'object': lesson})
 
-
-# @role_required('T')
 @login_required
 def mark_list(request, code):
     subject = Subject.objects.get(code=code)
@@ -227,14 +205,11 @@ def mark_list(request, code):
         request, 'subjects/mark_list.html', {'enrollments': enrollments, 'subject': subject}
     )
 
-
-# @role_required('T')
 @login_required
 def edit_marks(request, code):
     subject = Subject.objects.get(code=code)
     if subject.teacher != request.user:
         return HttpResponseForbidden('No tienes permisos para acceder a esta página.')
-    # raise PermissionDenied('No tienes permiso para editar calificaciones en este módulo.')
     enrollments = Enrollment.objects.filter(subject=subject)
 
     EnrollmentFormSet = modelformset_factory(
@@ -247,14 +222,10 @@ def edit_marks(request, code):
             formset.save()
             messages.success(request, 'Marks were successfully saved.')
             return redirect('subjects:mark-list', code=subject.code)
-        # else:
-        #     for form in formset:
-        #         print(form.errors)
     else:
         formset = EnrollmentFormSet(queryset=enrollments)
 
     return render(request, 'subjects/edit_marks.html', {'formset': formset, 'subject': subject})
-
 
 def request_certificate(request):
     enrollments = Enrollment.objects.filter(student=request.user)
@@ -262,5 +233,4 @@ def request_certificate(request):
         return HttpResponseForbidden(
             'No puedes solicitar el certificado. No todas tus asignaturas tienen calificación.'
         )
-
     return JsonResponse({'message': 'Solicitud de certificado enviada correctamente.'})

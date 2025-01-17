@@ -1,6 +1,3 @@
-# from django.contrib.auth.decorators import login_required
-# # from django.http import HttpResponseForbidden
-# from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -13,18 +10,14 @@ from .forms import ProfileForm
 from .models import Profile
 
 # Create your views here.
-
-
 @login_required
 def user_detail(request, username):
     user = User.objects.get(username=username)
     profile, created = Profile.objects.get_or_create(user=user)
     bio = user.profile.bio
     role = user.profile.get_role_display()
-
     subjects = Subject.objects.filter(enrollments__student=user)
 
-    # message = messages.get_messages(request)
     return render(
         request,
         'users/user_detail.html',
@@ -37,7 +30,6 @@ def user_detail(request, username):
             'subjects': subjects,
         },
     )
-
 
 @login_required
 def edit_profile(request):
@@ -52,7 +44,6 @@ def edit_profile(request):
         form = ProfileForm(instance=profile)
 
     return render(request, 'users/edit_profile.html', {'form': form})
-
 
 @login_required
 def leave(request):

@@ -3,14 +3,11 @@ from django.shortcuts import redirect, render
 from django.utils import translation
 
 # Create your views here.
-
-
 def index(request):
     return render(
         request,
         'shared/index.html',
     )
-
 
 def setlang(request, langcode):
     next = request.GET.get('next', '/')

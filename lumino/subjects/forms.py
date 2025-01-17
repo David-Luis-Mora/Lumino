@@ -2,12 +2,10 @@ from django import forms
 
 from .models import Enrollment, Lesson, Subject
 
-
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['subject', 'title', 'content']
-
 
 class EnrollmentForm(forms.Form):
     options = forms.MultipleChoiceField(
@@ -26,10 +24,6 @@ class EnrollmentForm(forms.Form):
         self.fields['options'].choices = [
             (subject.id, f'{subject.code} - {subject.name}') for subject in available_subjects
         ]
-
-    def save(self, user):
-        pass
-
 
 class UnenrollForm(forms.Form):
     options = forms.MultipleChoiceField(

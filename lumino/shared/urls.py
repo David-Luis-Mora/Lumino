@@ -4,7 +4,6 @@ from . import views
 
 app_name = 'shared'
 
-
 urlpatterns = [
     path('', views.index, name='index'),
 ]

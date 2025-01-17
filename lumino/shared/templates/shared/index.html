@@ -1,15 +1,18 @@
 {% extends "base.html" %}
+
 {% block title %}
   HOME
 {% endblock %}
+
 {% block navbar %}
-  
 {% endblock navbar %}
+
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
 {% endif %}
+
 {% block content %}
   <div class="container p-10">
     <div class="row align-items-center">
@@ -23,8 +26,6 @@
       </div>
     </div>
   </div>
-  
-  
 {% endblock %}
  
   

@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from users.models import Profile
 
-
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -20,7 +19,6 @@ class LoginForm(forms.Form):
             FloatingField('password'),
             Submit('login', 'Login', css_class='w-100 mt-2 mb-2'),
         )
-
 
 class SignupForm(forms.ModelForm):
     class Meta:
@@ -51,7 +49,6 @@ class SignupForm(forms.ModelForm):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
         user = super().save(*args, **kwargs)
-        # Profile.objects.create(user=user)
         user.save()
         return user
 

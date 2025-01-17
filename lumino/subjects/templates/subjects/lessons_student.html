@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-
+{% block content %}
 {% if messages %}
-<div class="messages">
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-</div>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
 {% endif %}
 
-
-<h1>Lecciones de {{ subject.name }}</h1>
+<h1>Lessons from {{ subject.name }}</h1>
 <ul>
     {% for lesson in lessons %}
         <li><a href="#">{{ lesson.title }}</a></li>
     {% endfor %}
 </ul>
+{% endblock content %}

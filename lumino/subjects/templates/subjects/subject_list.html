@@ -4,16 +4,14 @@
 {% block title %}
     {{request.user.username}} | Subjects
 {% endblock title %}
+
 {% block navbar %}
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
+
 {% block content %}
-
-
-{% comment %} <a href="{% url 'subjects:request-certificate'%}"><button class="btn btn-primary">Certificate</button></a> {% endcomment %}
-
 {% if show_certificate_link %}
-<a href="/subjects/certificate/"><button class="btn btn-primary">Certificate</button></a>
+    <a href="/subjects/certificate/"><button class="btn btn-primary">Certificate</button></a>
 {% endif %}
 
 {% if messages %}

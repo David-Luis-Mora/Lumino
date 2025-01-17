@@ -6,7 +6,6 @@ from django.urls import reverse
 
 from .forms import LoginForm, SignupForm
 
-
 def user_login(request):
     FALLBACK_REDIRECT = reverse('subjects:subject-list')
 
@@ -29,12 +28,10 @@ def user_login(request):
         dict(form=form),
     )
 
-
 @login_required
 def user_logout(request):
     logout(request)
     return redirect('shared:index')
-
 
 def user_signup(request):
     if request.method == 'POST':

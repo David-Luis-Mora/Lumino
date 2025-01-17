@@ -1,31 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %} Lecciones de {{ subject.name }} {% endblock title %}
+{% block title %} Lessons from {{ subject.name }} {% endblock title %}
+
 {% block navbar %}
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
+
 {% block content %}
-
 {% if messages %}
-<div class="messages">
-    {% for message in messages %}
-        <div class="alert {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-</div>
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
 {% endif %}
-
-
-<h1>Lecciones de {{ subject.name }}</h1>
+<h1>Lessons from {{ subject.name }}</h1>
 <ul>
     {% for lesson in lessons %}
         <li>
             {{ lesson.title }}
-            <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">Ver</a>
-            <a href="{% url 'subjects:edit-lesson' subject.code lesson.pk %}">Editar</a>
-            <a href="{% url 'subjects:delete-lesson' subject.code lesson.pk %}">Borrar</a>
+            <a href="{% url 'subjects:lesson-detail' subject.code lesson.pk %}">See details</a>
+            <a href="{% url 'subjects:edit-lesson' subject.code lesson.pk %}">Edit</a>
+            <a href="{% url 'subjects:delete-lesson' subject.code lesson.pk %}">Delete</a>
         </li>
     {% endfor %}
 </ul>
-<a href="{% url 'subjects:add-lesson' subject.code %}" class="btn btn-primary">Añadir nueva lección</a>
+<a href="{% url 'subjects:add-lesson' subject.code %}" class="btn btn-primary">Add new lesson</a>
 {% endblock %}
 

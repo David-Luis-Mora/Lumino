@@ -1,29 +1,30 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
+
 {% block title %}
     {{request.user.username}} | Detail
 {% endblock title %}
+
 {% block navbar %}
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
+
 {% block content %}
-
-
-<h1>Perfil de {{ user.username }}</h1>
+<h1>Profile of {{ user.username }}</h1>
 {% thumbnail user.profile.avatar "200x200" crop="center" format="PNG" as thumb %}
     <img src="{{thumb.url}}" alt="avatar">
 {% endthumbnail %}
-<p>Nombre completo: {{ user.first_name }} {{ user.last_name }}</p>
-<p>Correo electrónico: {{ user.email }}</p>
+<p>Complete Name: {{ user.first_name }} {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
 <p>Rol: {{ user.profile.get_role_display }}</p>
-<p>Biografía: {{ user.profile.bio }}</p>
+<p>Biography: {{ user.profile.bio }}</p>
 
-<h3>Mis asignaturas</h3>
+<h3>My subjects</h3>
 <ul>
     {% for subject in subjects %}
         <li>{{ subject.name }}</li>
     {% empty %}
-        <li>No tienes asignaturas.</li>
+        <li>You have no subjects</li>
     {% endfor %}
 </ul>
 
@@ -35,7 +36,7 @@
 </div>
 {% endif %}
 
-<a href="{% url 'user:edit-profile'%}">Editar perfil</a>
+<a href="{% url 'user:edit-profile'%}">Edit profile</a>
 {% if user.profile.role != 'T' %}
     <a href="/user/leave/">Leave</a>
 {% endif %}

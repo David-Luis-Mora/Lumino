@@ -12,9 +12,9 @@
 {% endif %}
 
 {% if can_edit %}
-    <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}" style="color: red;">Borrar Lección</a>
-    <a href="{% url 'subjects:edit-lesson' lesson.subject.code lesson.pk %}">Editar Lección</a>
+    <a href="{% url 'subjects:delete-lesson' lesson.subject.code lesson.pk %}" style="color: red;">Delete Lesson</a>
+    <a href="{% url 'subjects:edit-lesson' lesson.subject.code lesson.pk %}">Edit Lesson</a>
 {% endif %}
 
-<a href="{% url 'subjects:subject-detail' lesson.subject.code %}">Volver al módulo</a>
+<a href="{% url 'subjects:subject-detail' lesson.subject.code %}">Back</a>
 {% endblock %}

@@ -4,7 +4,6 @@ from django.dispatch import receiver
 
 from users.models import Profile
 
-
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, raw, **kwargs):
     if created and not raw:

@@ -6,7 +6,6 @@ from django.template.loader import render_to_string
 from django_rq import job
 from weasyprint import HTML
 
-
 def deliver_certificate(base_url, student):
     # Generar el PDF dinámicamente
     output_path = os.path.join(
@@ -33,8 +32,3 @@ def deliver_certificate(base_url, student):
     )
     email.attach_file(output_path)
     email.send()
-
-
-@job
-def heavy_processing():
-    pass

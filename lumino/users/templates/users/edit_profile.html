@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Editar Perfil{% endblock %}
+{% block title %}Edit Profile{% endblock %}
+
 {% block navbar %}
 {% include "shared/navbar.html" %}
 {% endblock navbar %}
 
 {% block content %}
-<h1>Editar Perfil</h1>
-
+<h1>Edit Profile</h1>
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
 {% endif %}
-
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
-
-<a href="{% url 'user-detail' request.user.username %}" class="btn btn-secondary">Cancelar</a>
+<a href="{% url 'user-detail' request.user.username %}" class="btn btn-secondary">Cancel</a>
 {% endblock %}
